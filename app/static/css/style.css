@@ -1,0 +1,47 @@
+/* 高达信息展示平台自定义样式 */
+
+/* 通用样式 */
+body {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+/* 首页样式 */
+.jumbotron {
+    background-image: linear-gradient(to right, #007bff, #0056b3);
+    color: white;
+    border-radius: 0.5rem;
+}
+
+/* 卡片样式 */
+.card {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 详情页样式 */
+#model-container {
+    background-color: #f0f0f0;
+    overflow: hidden;
+}
+
+/* 评论样式 */
+.comment-form {
+    margin-bottom: 2rem;
+}
+
+/* 分页样式 */
+.pagination {
+    margin-top: 2rem;
+} 

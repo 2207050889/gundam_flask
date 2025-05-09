@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron p-5 mb-4 bg-light rounded-3">
+    <div class="container">
+        <h1 class="display-4">欢迎来到高达信息展示平台</h1>
+        <p class="lead">探索不同系列的高达机体资料，了解它们的历史背景和技术规格。</p>
+        <hr class="my-4">
+        <p>本平台收集了UC纪元、SEED系列等高达作品中的经典机体信息，并提供互动留言功能。</p>
+    </div>
+</div>
+
+<h2 class="mb-4">高达系列</h2>
+
+<div class="row">
+    {% for series in series_list %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ series }}</h5>
+                <p class="card-text">点击进入查看{{ series }}系列的所有高达机体</p>
+                <a href="{{ url_for('main.series', series_name=series) }}" class="btn btn-primary">浏览系列</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            当前没有可用的高达系列信息。请等待管理员添加数据。
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<h2 class="mb-4 mt-5">精选机体</h2>
+
+<div class="row">
+    {% for gundam in featured_gundams %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            {% if gundam.image_url %}
+            <img src="{{ gundam.image_url }}" class="card-img-top" alt="{{ gundam.name }}">
+            {% else %}
+            <div class="card-img-top bg-light text-center py-5">暂无图片</div>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ gundam.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ gundam.series }}</h6>
+                <p class="card-text">{{ gundam.description|truncate(100) }}</p>
+                <a href="{{ url_for('main.gundam_detail', id=gundam.id) }}" class="btn btn-primary">详细信息</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            当前没有可用的高达机体信息。请等待管理员添加数据。
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 
