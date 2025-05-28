@@ -1,0 +1,1144 @@
+body.blog-join-page {
+    background: #181f2a;
+    color: #e0eaff;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.blog-join-section {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    padding: 1rem 0;
+}
+
+.blog-section {
+    background-image: 
+        linear-gradient(135deg, rgba(26, 42, 58, 0.7) 60%, rgba(46, 60, 80, 0.8) 100%),
+        url('../images/blog/back.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+.join-section {
+    background: none;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.join-background {
+    width: 100%;
+    min-height: 100vh;
+    background-image: url('../images/join/back.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+}
+
+.join-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 20, 35, 0.6);
+    z-index: 1;
+}
+
+.join-container {
+    position: relative;
+    z-index: 2;
+}
+
+.join-title {
+    font-family: 'orbitronlight', 'Segoe UI', Arial, sans-serif;
+    font-size: 2.3rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #00e1ff 10%, #66ffff 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+    text-align: left;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0,225,255,0.25);
+    width: 100%;
+    padding-left: 2rem;
+}
+
+.join-subtitle {
+    text-align: left;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 3rem;
+    font-style: italic;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    padding-left: 2rem;
+}
+
+.join-sections-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    padding-left: 2rem;
+}
+
+.join-goal-section,
+.join-opportunities-section,
+.join-contact-section {
+    background: rgba(208, 220, 230, 0.2);
+    backdrop-filter: blur(30px);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 0 15px rgba(103, 122, 138, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.join-goal-section:hover,
+.join-opportunities-section:hover,
+.join-contact-section:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 5px 25px rgba(103, 122, 138, 1);
+}
+
+.join-sections-wrapper h3 {
+    color: #00e1ff;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-family: 'orbitronlight', Arial, sans-serif;
+    text-shadow: 0 2px 8px rgba(0,225,255,0.3);
+}
+
+.join-sections-wrapper p {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.7;
+    font-size: 1rem;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* 职位卡片网格 - 3列布局 */
+.opportunities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.opportunity-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid rgba(0, 225, 255, 0.3);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    position: relative;
+    overflow: hidden;
+}
+
+.opportunity-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(0, 225, 255, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 225, 255, 0.3);
+}
+
+.opportunity-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem;
+    background: rgba(0, 225, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(0, 225, 255, 0.4);
+    transition: all 0.3s ease;
+}
+
+.opportunity-card:hover .opportunity-icon {
+    background: rgba(0, 225, 255, 0.3);
+    border-color: rgba(0, 225, 255, 0.8);
+    transform: rotateY(360deg);
+}
+
+.opportunity-icon i {
+    font-size: 1.5rem;
+    color: #00e1ff;
+    transition: all 0.3s ease;
+}
+
+.opportunity-card:hover .opportunity-icon i {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(0, 225, 255, 0.8);
+}
+
+.opportunity-card h4 {
+    color: #00e1ff;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.opportunity-card p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.status {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status.available {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+    border: 1px solid rgba(76, 175, 80, 0.5);
+}
+
+.status.recruiting {
+    background: rgba(255, 152, 0, 0.2);
+    color: #FF9800;
+    border: 1px solid rgba(255, 152, 0, 0.5);
+    animation: recruitingPulse 2s infinite;
+}
+
+@keyframes recruitingPulse {
+    0%, 100% { box-shadow: 0 0 5px rgba(255, 152, 0, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(255, 152, 0, 0.7); }
+}
+
+/* 联系方式网格 */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 225, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    background: rgba(0, 225, 255, 0.1);
+    border-color: rgba(0, 225, 255, 0.5);
+    transform: translateX(5px);
+}
+
+.contact-item i {
+    font-size: 1.2rem;
+    color: #00e1ff;
+    min-width: 20px;
+}
+
+.contact-item span {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+}
+
+.contact-item a {
+    color: #00e1ff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.contact-item a:hover {
+    color: #66ffff;
+    text-shadow: 0 0 8px rgba(0, 225, 255, 0.6);
+}
+
+/* 操作按钮 */
+.join-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.join-btn {
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    font-family: 'orbitronlight', Arial, sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+}
+
+.join-btn.primary {
+    background: linear-gradient(45deg, #00e1ff, #0066cc);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 225, 255, 0.4);
+}
+
+.join-btn.primary:hover {
+    background: linear-gradient(45deg, #00d4ea, #0055bb);
+    box-shadow: 0 6px 25px rgba(0, 225, 255, 0.6);
+    transform: translateY(-3px);
+}
+
+.join-btn.secondary {
+    background: transparent;
+    color: #00e1ff;
+    border: 2px solid #00e1ff;
+}
+
+.join-btn.secondary:hover {
+    background: rgba(0, 225, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 225, 255, 0.3);
+    transform: translateY(-3px);
+}
+
+/* JOIN部分响应式设计 */
+@media (max-width: 1200px) {
+    .opportunities-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .join-background {
+        padding: 2rem 0;
+        background-attachment: scroll;
+    }
+    
+    .join-title {
+        font-size: 1.8rem;
+        padding-left: 1rem;
+    }
+    
+    .join-subtitle {
+        font-size: 1rem;
+        padding-left: 1rem;
+    }
+    
+    .join-sections-wrapper {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .opportunities-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .join-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .join-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .join-title {
+        font-size: 1.5rem;
+    }
+    
+    .join-goal-section,
+    .join-opportunities-section,
+    .join-contact-section {
+        padding: 1.5rem;
+    }
+}
+
+.blog-join-container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.blog-join-title {
+    font-family: 'orbitronlight', 'Segoe UI', Arial, sans-serif;
+    font-size: 2.3rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #00e1ff 10%, #66ffff 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 2rem;
+    text-align: left;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0,225,255,0.25);
+    width: 100%;
+    padding-left: 2rem;
+}
+
+.blog-join-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 65%;
+    box-sizing: border-box;
+    padding-left: 2rem;
+}
+
+.blog-join-card {
+    display: flex;
+    width: 100%;
+    height: 260px;
+    background: rgba(208, 220, 230, 0.2);
+    backdrop-filter: blur(30px);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(103, 122, 138, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.blog-join-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 5px 25px rgba(103, 122, 138, 1);
+}
+
+.blog-join-card-content {
+    flex: 1;
+    padding: 1.5rem 2rem;
+    color: rgb(25, 39, 49);
+    font-family: "幼圆", sans-serif;
+}
+
+.blog-join-card-content h3 {
+    color: rgb(53, 75, 104);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.blog-join-card-content p {
+    color: rgb(25, 39, 49);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.blog-profile {
+    width: 30%;
+    margin-left: 5%;
+    margin-top: 4rem;
+    animation: profileLoad 2s linear;
+}
+
+.blog-profile-header {
+    background-color: rgba(229, 239, 243, 0.1);
+    border-radius: 20px;
+    padding: 2rem 1rem;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(39, 69, 88, 0.6);
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+.blog-profile-avatar {
+    display: block;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    border: 3px groove rgb(35, 82, 121);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    text-decoration: none;
+}
+
+.blog-profile-avatar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(0, 225, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+.blog-profile-avatar:hover::before {
+    opacity: 1;
+}
+
+.blog-profile-avatar:hover {
+    transform: scale(1.1);
+    border-color: #00e1ff;
+    box-shadow: 0 0 20px rgba(0, 225, 255, 0.5);
+    text-decoration: none;
+}
+
+.blog-profile-avatar:hover img {
+    transform: scale(1.05);
+}
+
+.blog-profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.blog-profile-header h3 {
+    color: rgb(32, 76, 97);
+    margin-bottom: 0.5rem;
+}
+
+.blog-profile-header p {
+    color: rgb(118, 175, 185);
+}
+
+.blog-profile-tags {
+    background-color: rgba(229, 239, 243, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 0 8px rgba(39, 69, 88, 0.6);
+    backdrop-filter: blur(10px);
+}
+
+.blog-profile-tags h3 {
+    color: rgb(56, 117, 158);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.blog-profile-tags p {
+    color: rgb(109, 166, 168);
+    word-wrap: break-word;
+    line-height: 1.8;
+}
+
+@keyframes cardLoad1 {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    70% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardLoad2 {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    80% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardLoad3 {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    90% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes profileLoad {
+    0% {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    80% {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 简化卡片样式 - 修复背景图片显示 */
+.blog-join-card:nth-child(1),
+.blog-join-card:nth-child(2),
+.blog-join-card:nth-child(3) {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: block;
+    background-color: transparent;
+}
+
+.blog-join-card:nth-child(1)::before,
+.blog-join-card:nth-child(2)::before,
+.blog-join-card:nth-child(3)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 30, 50, 0.75);
+    z-index: 1;
+}
+
+.blog-join-card:nth-child(1) .blog-join-card-content,
+.blog-join-card:nth-child(2) .blog-join-card-content,
+.blog-join-card:nth-child(3) .blog-join-card-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    color: #ffffff;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.blog-join-card:nth-child(1) .blog-join-card-content h3,
+.blog-join-card:nth-child(2) .blog-join-card-content h3,
+.blog-join-card:nth-child(3) .blog-join-card-content h3 {
+    color: #00e1ff;
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    font-family: "orbitronlight", sans-serif;
+}
+
+.blog-join-card:nth-child(1) .blog-join-card-content p,
+.blog-join-card:nth-child(2) .blog-join-card-content p,
+.blog-join-card:nth-child(3) .blog-join-card-content p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.5;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+}
+
+/* 第二个卡片特殊布局 */
+.blog-join-card:nth-child(2) .blog-join-card-content {
+    justify-content: space-between;
+}
+
+/* 第三个卡片 - 确保音乐播放器完全可见 */
+.blog-join-card:nth-child(3) .blog-join-card-content {
+    justify-content: space-between;
+    padding: 1.2rem;
+}
+
+.blog-join-card:nth-child(3) .blog-join-card-content p {
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+}
+
+/* 动画效果 */
+.blog-join-card:nth-child(1) {
+    animation: cardLoad1 0.8s ease forwards;
+}
+
+.blog-join-card:nth-child(2) {
+    animation: cardLoad2 1s ease forwards;
+}
+
+.blog-join-card:nth-child(3) {
+    animation: cardLoad3 1.2s ease forwards;
+}
+
+/* 卡片链接按钮样式 */
+.card-link-btn {
+    display: inline-block;
+    background: transparent;
+    border: 2px solid #00e1ff;
+    color: #00e1ff;
+    padding: 0.6rem 1.5rem;
+    border-radius: 25px;
+    font-family: "orbitronlight", sans-serif;
+    font-size: 0.9rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 1rem;
+}
+
+.card-link-btn:hover {
+    background: rgba(0, 225, 255, 0.1);
+    color: #00e1ff;
+    box-shadow: 0 0 15px rgba(0, 225, 255, 0.4);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+/* 社区标签样式 - 水平排列 */
+.community-links {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.community-tag {
+    display: inline-block;
+    background: rgba(0, 225, 255, 0.15);
+    color: #00e1ff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 225, 255, 0.4);
+    white-space: nowrap;
+}
+
+.community-tag:hover {
+    background: rgba(0, 225, 255, 0.25);
+    color: #ffffff;
+    transform: translateY(-2px);
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 225, 255, 0.3);
+}
+
+/* 音乐播放器整体优化 */
+.music-player {
+    margin-top: 0.3rem;
+    background: rgba(0, 225, 255, 0.1);
+    border-radius: 10px;
+    padding: 0.6rem;
+    border: 1px solid rgba(0, 225, 255, 0.3);
+    flex-shrink: 0;
+}
+
+.music-info {
+    margin-bottom: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.music-info-left {
+    flex: 1;
+}
+
+.music-info-right {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: right;
+}
+
+.playlist-count {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.music-title {
+    color: #00e1ff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: block;
+}
+
+.music-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.music-btn {
+    background: rgba(0, 225, 255, 0.2);
+    border: 1px solid rgba(0, 225, 255, 0.5);
+    color: #00e1ff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.music-btn:hover {
+    background: rgba(0, 225, 255, 0.3);
+    transform: scale(1.1);
+    box-shadow: 0 0 8px rgba(0, 225, 255, 0.4);
+}
+
+.volume-slider {
+    flex: 1;
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(0, 225, 255, 0.3);
+    outline: none;
+    -webkit-appearance: none;
+    min-width: 60px;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #00e1ff;
+    cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #00e1ff;
+    cursor: pointer;
+    border: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 1400px) {
+    .blog-join-container {
+        max-width: 1200px;
+    }
+    
+    .blog-join-cards {
+        width: 60%;
+    }
+    
+    .blog-profile {
+        width: 35%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .blog-join-container {
+        flex-direction: column;
+    }
+    
+    .blog-join-cards {
+        width: 100%;
+        padding-left: 0;
+    }
+    
+    .blog-profile {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 2rem;
+    }
+    
+    .blog-join-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .blog-join-container {
+        padding: 1rem;
+    }
+    
+    .blog-join-title {
+        font-size: 1.8rem;
+        padding-left: 1rem;
+    }
+    
+    .blog-join-card {
+        height: 280px;
+    }
+    
+    .blog-join-card:nth-child(1) .blog-join-card-content,
+    .blog-join-card:nth-child(2) .blog-join-card-content,
+    .blog-join-card:nth-child(3) .blog-join-card-content {
+        padding: 1rem;
+        height: auto;
+    }
+    
+    .community-links {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .community-tag {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.6rem;
+    }
+    
+    .music-player {
+        padding: 0.5rem;
+        margin-top: 0.3rem;
+    }
+    
+    .music-controls {
+        flex-wrap: nowrap;
+        gap: 0.4rem;
+        justify-content: space-around;
+    }
+    
+    .music-btn {
+        width: 26px;
+        height: 26px;
+        font-size: 0.7rem;
+    }
+    
+    .progress-container {
+        margin: 0.4rem 0;
+    }
+    
+    .progress-bar {
+        height: 5px;
+    }
+    
+    .time-display {
+        font-size: 0.65rem;
+    }
+    
+    .volume-panel {
+        left: auto;
+        right: 0;
+        transform: none;
+    }
+    
+    .volume-slider-vertical {
+        height: 60px;
+        width: 18px;
+    }
+}
+
+/* 卡片背景图片样式 */
+.blog-join-card.card-01 {
+    background-image: url('../images/blog/card01.jpg');
+}
+
+.blog-join-card.card-02 {
+    background-image: url('../images/blog/card02.jpg');
+}
+
+.blog-join-card.card-03 {
+    background-image: url('../images/blog/card03.jpg');
+}
+
+/* Blog链接容器样式 */
+.blog-links {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+/* 社区统计信息样式 */
+.community-stats {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(0, 225, 255, 0.3);
+}
+
+.stat-item {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.stat-item i {
+    color: #00e1ff;
+    font-size: 0.9rem;
+}
+
+/* 音乐播放器增强样式 */
+.music-desc {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.7rem;
+    display: block;
+    margin-top: 0.2rem;
+    font-style: italic;
+}
+
+/* 新增播放控制按钮样式 */
+.music-btn.prev-btn,
+.music-btn.next-btn {
+    font-size: 0.7rem;
+}
+
+.music-btn.prev-btn:hover,
+.music-btn.next-btn:hover {
+    background: rgba(0, 225, 255, 0.4);
+    transform: scale(1.15);
+}
+
+/* 社区标签增强 - 支持图标 */
+.community-tag i {
+    font-size: 0.8rem;
+    margin-right: 0.2rem;
+}
+
+/* 卡片链接按钮容器优化 */
+.card-link-btn i {
+    font-size: 0.8rem;
+}
+
+/* 音频进度条样式 */
+.progress-container {
+    margin: 0.3rem 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 225, 255, 0.2);
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 0.2rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00e1ff, #66ffff);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.1s ease;
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background: #00e1ff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 225, 255, 0.6);
+}
+
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 垂直音量控制样式 */
+.volume-control {
+    position: relative;
+    display: inline-block;
+}
+
+.volume-panel {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 30, 50, 0.95);
+    border: 1px solid rgba(0, 225, 255, 0.4);
+    border-radius: 8px;
+    padding: 0.8rem 0.4rem;
+    margin-bottom: 0.5rem;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.volume-panel.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.volume-slider-vertical {
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    width: 20px;
+    height: 80px;
+    background: rgba(0, 225, 255, 0.3);
+    outline: none;
+    border-radius: 10px;
+}
+
+.volume-slider-vertical::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #00e1ff;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(0, 225, 255, 0.4);
+}
+
+.volume-slider-vertical::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #00e1ff;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 8px rgba(0, 225, 255, 0.4);
+} 

@@ -1,47 +1,1361 @@
 /* 高达信息展示平台自定义样式 */
 
-/* 通用样式 */
-body {
-    background-color: #f8f9fa;
-    min-height: 100vh;
+html {
+    scroll-behavior: smooth;
+    overflow-y: scroll; /* Ensure vertical scrollbar for sticky positioning context */
+
+}
+
+/* Ensure html and body take full height for 100vh to work correctly on children */
+html, body.homepage {
+
+    width: 100%; /* Use width 100% instead of height auto if html has scroll */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrollbars */
+}
+
+.full-viewport-section {
+    min-height: 100vh; /* Section is at least full viewport height */
+    width: 100%; /* Changed from 100vw to 100% to behave better in document flow */
     display: flex;
     flex-direction: column;
+    /* justify-content: center; Will adjust per section */
+    align-items: center;
+    text-align: center;
+    /* padding: 2rem; Will adjust per section or apply to inner containers */
+    position: relative;
+    box-sizing: border-box; /* Ensure padding doesn't add to width/height causing overflow */
 }
 
+/* 通用样式 */
+#tsparticles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0; /* Placed above the body background, but below other content */
+}
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --info-color: #17a2b8;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+}
+
+body.homepage {
+    background-color: #1a1a1a; /* Dark fallback color */
+    background-image: url('../images/backgrounds.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--light-color);
+    position: relative; 
+    margin: 0;
+    padding: 0;
+    background-attachment: fixed; 
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    overflow-x: hidden;
+    }
+
+
+main {
+    flex: 1 0 auto;
+    position: relative;
+    z-index: 1; 
+    overflow: hidden;
+    margin-top: 0;
+    padding-top: 0;
+    }
+
+/* 页脚样式 */
 .footer {
-    margin-top: auto;
+    margin-top: 0 !important; /* 强制无顶部外边距 */
+    padding-top: 1.5rem;      /* 页脚内部的顶部间距 */
+    padding-bottom: 1.5rem; /* 页脚内部的底部间距 */
+    background-color: var(--dark-color, #343a40); /* 深色背景 */
+    color: var(--light-color, #f8f9fa);          /* 浅色文字 */
+    width: 100%; /* 确保页脚宽度为100% */
+    float: left;
+    clear: both;
+    margin-bottom: 0px;
 }
 
-/* 首页样式 */
-.jumbotron {
-    background-image: linear-gradient(to right, #007bff, #0056b3);
-    color: white;
-    border-radius: 0.5rem;
+/* 导航样式 */
+.navbar {
+    z-index: 1030; /* Ensure it's above most other content, Bootstrap standard for navbars */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: transparent !important; /* Make navbar transparent */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transitions for all properties */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    border-bottom: none !important;
+    margin: 0;
+    padding: 0;
+    transform: translateY(0); /* Initial position */
+}
+
+/* 导航栏隐藏状态 - 向下滚动时 */
+.navbar.navbar-hidden {
+    transform: translateY(-100%); /* Move navbar completely out of view */
+    box-shadow: none; /* Remove shadow when hidden */
+}
+
+/* 导航栏显示状态 - 向上滚动时 */
+.navbar.navbar-visible {
+    transform: translateY(0); /* Bring navbar back into view */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Restore shadow */
+}
+
+.navbar.scrolled {
+
+    -webkit-backdrop-filter: blur(5px); /* Optional: Frosted glass effect for scrolled navbar */
+    backdrop-filter: blur(5px); /* Optional: Frosted glass effect for scrolled navbar */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow when scrolled */
+}
+
+.navbar-nav.me-auto {
+    position: relative; /* For absolute positioning of the follower */
+}
+
+.nav-item-follower {
+    position: absolute;
+    top:0;
+    left:0;
+    height: 40px;
+    background: linear-gradient(90deg, #00e1ff 10%, #66ffff 90%);
+    border-radius: 20px;
+    transition: left 0.3s ease-out, width 0.3s ease-out, opacity 0.3s ease-out;
+    z-index: 0;
+    opacity: 1;
+    box-shadow: 0 0 12px #00e1ff66, 0 2px 8px #00e1ff33;
+
+}
+
+.navbar .nav-link {
+    transition: color 0.2s,background 0.2s, box-shadow 0.2s, border-radius 0.2s;
+    position: relative;
+    z-index: 1;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 1.3rem;
+    color: #f0f0f0 !important; 
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    background: transparent;
+    transition: color 0.2s,text-shadow 0.2s;
+    font-weight: 600;
+}
+
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+    color: #fff !important;  
+    text-shadow: 0 0 8px #00e1ff, 0 0 16px #00e1ff99;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #f0f0f0 !important; /* Match nav-link color */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7); /* Match nav-link shadow */
 }
 
 /* 卡片样式 */
 .card {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    border-radius: 0.5rem;
+    overflow: hidden;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* 详情页样式 */
-#model-container {
-    background-color: #f0f0f0;
-    overflow: hidden;
+.card-header {
+    font-weight: 600;
+    border-bottom: none;
 }
+
+/* 按钮样式 */
+.btn {
+    border-radius: 0.25rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+}
+
+/* 移除旧的霓虹按钮样式 */
+@property --gradient-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.neon-button-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 2px;
+    border-radius: 4px;
+}
+
+.neon-button {
+    font-family: 'orbitronlight', sans-serif;
+    font-size: 1.5rem;
+    padding: 15px 40px;
+    background: linear-gradient(145deg, #00e1ff 10%, #66ffff 50%, #00e1ff 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    z-index: 1;
+}
+
+.neon-button::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(145deg, 
+        rgba(0, 225, 255, 0.2) 10%, 
+        rgba(102, 255, 255, 0.2) 50%, 
+        rgba(0, 225, 255, 0.2) 90%
+    );
+    filter: blur(8px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+    border-radius: 4px;
+    transform: scale(0.95);
+}
+
+.neon-button-wrapper:hover {
+    transform: scale(1.02) translateY(-2px);
+}
+
+.neon-button-wrapper:hover .neon-button {
+    color: #e0faff;
+    text-shadow:
+        0 0 10px rgba(0, 225, 255, 0.9),
+        0 0 20px rgba(0, 225, 255, 0.6),
+        0 0 30px rgba(0, 225, 255, 0.4),
+        0 0 40px rgba(0, 225, 255, 0.2);
+    letter-spacing: 4px;
+}
+
+.neon-button-wrapper:hover .neon-button::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.neon-button-wrapper:active {
+    transform: scale(0.98) translateY(0);
+}
+
+.neon-button-wrapper:active .neon-button {
+    text-shadow:
+        0 0 5px rgba(0, 225, 255, 0.8),
+        0 0 10px rgba(0, 225, 255, 0.5),
+        0 0 15px rgba(0, 225, 255, 0.3);
+    letter-spacing: 3px;
+}
+
+/* 移除不需要的样式 */
+.neon-border,
+.neon-border-blur,
+.neon-button-inner {
+    display: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* 表单样式 */
+.form-control {
+    border-radius: 0.25rem;
+    border: 1px solid #ddd;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* 徽章样式 */
+.badge {
+    font-weight: 500;
+    padding: 0.4em 0.8em;
+    border-radius: 50rem;
+}
+
+/* 分页样式 */
+.pagination {
+    margin-top: 2rem;
+}
+
+.pagination .page-link {
+    color: var(--primary-color);
+    border: none;
+    margin: 0 0.2rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.pagination .page-link:hover {
+    background-color: #e9ecef;
+    transform: scale(1.05);
+}
+
+/* 动画样式 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* ============ 导航栏全局响应式优化 ============ */
+
+/* 超大屏幕优化 (1400px+) */
+@media (min-width: 1400px) {
+    .navbar .nav-link {
+        padding: 0 1.5rem;
+        font-size: 1.05rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+}
+
+/* 大屏幕优化 (1200px-1399px) */
+@media (max-width: 1399px) and (min-width: 1200px) {
+    .navbar .nav-link {
+        padding: 0 1.2rem;
+    }
+}
+
+/* 中等屏幕优化 (992px-1199px) */
+@media (max-width: 1199px) and (min-width: 992px) {
+    .navbar .nav-link {
+        padding: 0 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.15rem;
+    }
+    
+    /* 搜索框适配 */
+    .navbar .d-flex.mx-lg-2 {
+        margin: 0.5rem 0 !important;
+    }
+}
+
+/* 平板屏幕优化 (768px-991px) */
+@media (max-width: 991px) and (min-width: 768px) {
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+    
+    .navbar-collapse {
+        margin-top: 1rem;
+        background: rgba(15, 25, 45, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        border: 1px solid rgba(0, 225, 255, 0.3);
+    }
+    
+    .navbar .nav-link {
+        padding: 0.7rem 1rem;
+        border-radius: 0.3rem;
+        margin: 0.2rem 0;
+        transition: all 0.3s ease;
+    }
+    
+    .navbar .nav-link:hover {
+        background: rgba(0, 225, 255, 0.1);
+        transform: translateX(5px);
+    }
+    
+    /* 隐藏导航跟随器 */
+    .nav-item-follower {
+        display: none;
+    }
+    
+    /* 搜索框优化 */
+    .navbar .d-flex {
+        margin: 1rem 0 0.5rem 0;
+        width: 100%;
+    }
+    
+    .navbar .input-group {
+        width: 100%;
+    }
+}
+
+/* 小屏手机优化 (576px-767px) */
+@media (max-width: 767px) and (min-width: 576px) {
+    .navbar {
+        padding: 0.4rem 0.8rem;
+        height: auto;
+        min-height: 60px;
+    }
+    
+    .navbar-brand {
+        font-size: 1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+    }
+    
+    .navbar-toggler {
+        padding: 0.35rem 0.5rem;
+        font-size: 1rem;
+        border: 1px solid rgba(0, 225, 255, 0.5);
+        background: rgba(0, 225, 255, 0.1);
+    }
+    
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 225, 255, 0.25);
+    }
+    
+    .navbar-collapse {
+        margin-top: 0.8rem;
+        background: rgba(10, 15, 30, 0.98);
+        backdrop-filter: blur(15px);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        border: 1px solid rgba(0, 225, 255, 0.4);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    .navbar .nav-link {
+        padding: 0.8rem 1rem;
+        border-radius: 0.4rem;
+        margin: 0.15rem 0;
+        font-size: 1rem;
+        border-left: 3px solid transparent;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    .navbar .nav-link:hover,
+    .navbar .nav-link.active {
+        background: rgba(0, 225, 255, 0.15);
+        border-left-color: var(--theme-primary, #00e1ff);
+        transform: translateX(8px);
+        box-shadow: 0 4px 15px rgba(0, 225, 255, 0.2);
+    }
+    
+    /* 隐藏导航跟随器 */
+    .nav-item-follower {
+        display: none;
+    }
+    
+    /* 搜索框全宽优化 */
+    .navbar .d-flex {
+        margin: 1rem 0 0.5rem 0;
+    }
+    
+    .navbar .form-control {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+    }
+    
+    .navbar .btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Series下拉菜单优化 */
+    .dropdown-menu {
+        background: rgba(10, 15, 30, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 225, 255, 0.3);
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    .dropdown-item {
+        padding: 0.6rem 1rem;
+        border-radius: 0.3rem;
+        color: #e0e0e0;
+        transition: all 0.3s ease;
+    }
+    
+    .dropdown-item:hover {
+        background: rgba(0, 225, 255, 0.15);
+        color: #00e1ff;
+        transform: translateX(5px);
+    }
+}
+
+/* 超小屏手机优化 (最大575px) */
+@media (max-width: 575px) {
+    .navbar {
+        padding: 0.3rem 0.5rem;
+        height: auto;
+        min-height: 55px;
+    }
+    
+    .navbar-brand {
+        font-size: 0.9rem;
+        max-width: 150px;
+    }
+    
+    .navbar-brand i {
+        font-size: 1.1rem;
+        margin-right: 0.3rem;
+    }
+    
+    .navbar-toggler {
+        padding: 0.3rem 0.4rem;
+        font-size: 0.9rem;
+    }
+    
+    .navbar-collapse {
+        margin-top: 0.5rem;
+        padding: 0.8rem;
+    }
+    
+    .navbar .nav-link {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.95rem;
+    }
+    
+    .navbar .form-control {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.8rem;
+    }
+    
+    .navbar .btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    
+    /* 登录注册按钮优化 */
+    .navbar-nav:last-child .nav-link {
+        text-align: center;
+        background: rgba(0, 225, 255, 0.1);
+        margin: 0.3rem 0;
+        border-radius: 0.4rem;
+    }
+}
+
+/* ============ 移动端导航菜单动画 ============ */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 500px;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 500px;
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+        max-height: 0;
+    }
+}
+
+/* 确保初始加载时导航跟随器在正确位置 */
+@media (min-width: 992px) {
+    .nav-item-follower {
+        display: block !important;
+    }
+}
+
+/* 原有响应式调整保留 */
+@media (max-width: 768px) {
+    .card-title {
+        font-size: 1.1rem;
+    }
+    
+    .hero-header, .series-header, .search-header {
+        padding: 2rem 1rem;
+    }
+}
+
 
 /* 评论样式 */
 .comment-form {
     margin-bottom: 2rem;
 }
 
-/* 分页样式 */
-.pagination {
-    margin-top: 2rem;
+/* Alert样式 */
+.alert {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Styles moved from index.html */
+.hero-header {
+    background: linear-gradient(135deg,rgba(15, 20, 40, 0.8)0%,rgba(15, 20, 40, 0.7)100%);
+    background-size: cover;
+    background-position: center;
+    color: white; /* This might need to change depending on the actual background image */
+    padding: 7rem 2rem;
+    margin-bottom: 3rem;
+    border-radius: 0.5rem;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.series-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color); /* Replaced #007bff */
+}
+
+.featured-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(220, 53, 69, 0.9); /* Consider var(--danger-color) and adjust opacity if needed, e.g., background-color: rgba(var(--danger-rgb), 0.9); if --danger-rgb is defined */
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+.card-img-container {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* This :hover rule was already present for .card in general, 
+   but the .card:hover .card-img-container img targets a more specific scaling effect.
+   Ensure this doesn't conflict with existing .card:hover if it also scales the whole card.
+   If .card:hover already scales the card, this might be redundant or create a double effect.
+   For now, adding as it was in index.html. */
+.card:hover .card-img-container img {
+    transform: scale(1.05);
+}
+
+/* 高达系列卡片恢复为高亮浅色 */
+.series-card {
+    background: rgba(255,255,255,0.92);
+    color: #222;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    border-radius: 1rem;
+    border: 1px solid rgba(0,0,0,0.06);
+    /* 让内容更居中 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.series-card .card-title,
+.series-card .card-text {
+    color: #222;
+    text-shadow: none;
+}
+
+/* 首页区块说明文字和标题增强 + 动效 */
+.section-desc {
+    color: #afeeee !important; /* 淡青色，确保覆盖 .text-muted */
+    font-family: 'orbitronlight', sans-serif; /* 应用 Orbitron 字体 */
+    font-size: 1rem; /* 略微调整字体大小 */
+    font-weight: normal; /* Orbitron 的普通字重 */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); /* 轻微的文字阴影 */
+    padding: 0;
+    border-radius: 0;
+    display: block;
+    margin-top: 0.5rem; /* 调整与标题的间距 */
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+/* 简化 .section-title，让 .title-interactive 主导其视觉表现 */
+.section-title {
+    display: inline-block; /* 确保布局稳定性，如果需要 */
+    margin-bottom: 1.5rem; /* 为区块标题提供统一的下外边距，可调整 */
+    /* 移除以下与 .title-interactive 冲突或重复的样式:
+       background, color, padding, border-radius, text-shadow, animation 
+       这些将由 .title-interactive 和我们为它定义的 @keyframes subtleGlow 控制
+    */
+}
+
+
+
+/* 精选机体卡片内部文字增强 */
+.card .card-title,
+.card .card-text {
+    color: #fff !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.85);
+}
+.card {
+    background: rgba(20, 30, 40, 0.92);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* 关于高达系列区块增强 */
+section.bg-light.py-5.rounded {
+    background: rgba(255,255,255,0.92) !important;
+    color: #222 !important;
+    border-radius: 1.5em;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    padding: 2em 1em;
+}
+section.bg-light.py-5.rounded h2,
+section.bg-light.py-5.rounded p {
+    color: #222 !important;
+    text-shadow: none;
 } 
+/* --- Interactive Titles --- */
+.title-interactive {
+    cursor: pointer;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.title-interactive:hover {
+    color: #00aaff; /* 示例悬停颜色 - 请根据你的主题调整 */
+    text-shadow: 0 0 5px rgba(0, 170, 255, 0.5); /* 示例悬停光晕 */
+}
+
+
+
+
+
+/* --- Enhanced Featured Gundam Cards --- */
+#featured-section {
+    /* Added Frosted Glass Effect */
+    background-color: rgba(15, 25, 45, 0.75);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    padding: 2rem; /* Add padding inside the frosted panel */
+    margin-bottom: 3rem; /* Add some margin */
+    border: 1px solid rgba(100, 180, 255, 0.2);
+}
+
+#featured-section .card {
+    background-color: rgba(15, 25, 35, 0.92)!important;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 123, 255, 0.35)!important; /* 保持非悬停时的单色幽蓝边框 */
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.1), 0 4px 8px rgba(0,0,0,0.3) !important; /* <--- 在这里添加 !important */
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1); /* 其他属性的过渡 */
+    overflow: hidden;
+}
+
+#featured-section .card:hover {
+    transform: translateY(-4px) scale(1.02) !important;
+    border: 1px solid transparent !important; /* 必须有 border 宽度，且最好是 transparent */
+    border-image-source: linear-gradient(to right, #ff00ff, #00ffff, #ffff00, #ff00ff) !important; /* 赛博朋克渐变 */
+    border-image-slice: 1 !important; /* 确保渐变填充整个边框 */
+    border-image-width: 2px !important; /* 可选：悬停时边框加粗 */
+    box-shadow: 0 0 30px rgba(128, 0, 128, 0.5), /* 紫色光晕 */
+                0 0 40px rgba(0, 255, 255, 0.3), /* 青色光晕 */
+                0 8px 16px rgba(0,0,0,0.35) !important; /* 基础阴影 */
+}
+
+#featured-section .card .card-img-container {
+    border-bottom: 1px solid rgba(0, 123, 255, 0.2); /* 图片下方加一条细分隔线 */
+}
+
+#featured-section .card .card-img-container img {
+
+}
+
+#featured-section .card .card-body {
+    padding: 1.25rem; /* 调整内边距 */
+}
+
+#featured-section .card .card-title {
+    font-size: 1.3rem;
+    color: #e0e0e0 !important; /* 高亮但不过于刺眼的白色 */
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+}
+
+#featured-section .card .card-text {
+    color: #b0b0b0 !important; /* 描述文字颜色调暗，与标题区分 */
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+}
+
+#featured-section .card .card-text small.text-muted { /* 驾驶员信息 */
+    color: var(--info-color, #17a2b8) !important; /* 使用主题信息色，并确保覆盖 */
+    font-size: 0.8rem;
+    display: block; /* 确保独占一行 */
+    margin-top: 0.25rem; /* 与描述的微小间距 */
+}
+
+#featured-section .card .card-footer {
+    background-color: transparent !important; /* 确保页脚透明 */
+    border-top: 1px solid rgba(0, 123, 255, 0.2); /* 页脚上方加一条细分隔线 */
+    padding: 0.75rem 1.25rem; /* 调整页脚内边距 */
+}
+
+#featured-section .card .btn-outline-primary {
+    background-color: transparent;
+    border-color: var(--primary-color, #007bff);
+    color: var(--primary-color, #007bff);
+    font-weight: 500;
+    padding: 0.5rem 1rem; /* 调整按钮内边距 */
+    width: 100%;
+    border-radius: 4px; /* 按钮圆角与卡片协调 */
+    transition: all 0.3s ease;
+}
+
+#featured-section .card .btn-outline-primary:hover,
+#featured-section .card .btn-outline-primary:focus {
+    background-color: var(--primary-color, #007bff);
+    color: white;
+    box-shadow: 0 0 12px rgba(var(--primary-color-rgb, 0, 123, 255), 0.5); /* 假设你有 --primary-color-rgb 变量，否则直接用rgba(0,123,255,0.5) */
+    transform: translateY(-2px); /* 按钮悬停时轻微上浮 */
+}
+
+/* 确保文字颜色优先 */
+#featured-section .card .card-body .card-title {
+    color: #e0e0e0 !important; /* 直接声明期望的颜色 */
+}
+#featured-section .card .card-body .card-text {
+    color: #b0b0b0 !important; /* 直接声明期望的颜色 */
+}
+/* 如果描述文字是直接在 .card-text 下，而不是嵌套在 <p> 中，上面的规则就够了。*/
+/* 如果描述文字确实是在 <p> 标签内，并且希望它也是 #b0b0b0 */
+#featured-section .card .card-body .card-text p {
+     color: #b0b0b0 !important;
+}
+
+/* --- Enhanced Series Cards (#series-section) --- */
+#series-section {
+    /* Added Frosted Glass Effect */
+    background-color: rgba(15, 25, 45, 0.75);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    padding: 2rem; /* Add padding inside the frosted panel */
+    margin-bottom: 3rem; /* Add some margin */
+    border: 1px solid rgba(100, 180, 255, 0.2);
+}
+
+#series-section .card.series-card { /* 增加特异性，并针对 .series-card */
+    background-color: rgba(25, 35, 45, 0.9) !important; /* 深灰蓝色半透明背景 */
+    color: #c8d6e5 !important; /* 基础文字颜色 - 淡蓝灰色 */
+    border-radius: 6px !important; /* 与机体卡片一致的圆角 */
+    border: 1px solid rgba(70, 130, 180, 0.4) !important; /* 钢蓝色边框 */
+    box-shadow: 0 0 12px rgba(70, 130, 180, 0.1), 0 3px 6px rgba(0,0,0,0.25) !important; /* 钢蓝色辉光和阴影 */
+    transition: all 0.3s ease-in-out !important;
+    display: flex !important; /* 保持flex以便内容对齐 */
+    flex-direction: column !important;
+    align-items: center !important; /* 图标和文字居中 */
+    justify-content: space-between !important; /* 内容均匀分布 */
+    padding: 1.5rem !important; /* 统一内边距 */
+    text-shadow: none !important; /* 清除旧的文字阴影 */
+}
+
+#series-section .card.series-card:hover {
+    transform: translateY(-3px) scale(1.015) !important; /* 悬停效果比机体卡片略弱 */
+    border-color: rgba(100, 160, 210, 0.7) !important; /* 悬停时边框变亮 (钢蓝变亮) */
+    background-color: rgba(30, 40, 55, 0.95) !important; /* 背景色轻微变化 */
+    box-shadow: 0 0 18px rgba(80, 140, 190, 0.25), 0 5px 10px rgba(0,0,0,0.3) !important; /* 光晕增强 */
+}
+
+#series-section .card.series-card .series-icon {
+    font-size: 2.2rem; /* 图标大小 */
+    margin-bottom: 1rem;
+    color: var(--primary-color, #007bff) !important; /* 可以保持使用主题主色 */
+}
+
+#series-section .card.series-card .card-body {
+    padding: 0 !important; /* 外部已有padding */
+    text-align: center !important;
+    background-color: transparent !important; /* 确保card-body透明 */
+}
+
+#series-section .card.series-card .card-title {
+    font-size: 1.25rem !important;
+    color: #e0e6eb !important; /* 浅灰蓝色标题 */
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6) !important; /* 新的文字阴影 */
+}
+
+#series-section .card.series-card .card-text {
+    font-size: 0.85rem !important;
+    color: #a7b0ba !important; /* 稍暗的灰蓝色描述 */
+    margin-bottom: 1.25rem !important;
+    line-height: 1.4 !important;
+    text-shadow: none !important; /* 清除旧的文字阴影 */
+}
+
+/* 应用与精选机体卡片一致的按钮样式 */
+#series-section .card.series-card .btn.stretched-link {
+    background-color: transparent !important;
+    border-color: var(--primary-color, #007bff) !important;
+    color: var(--primary-color, #007bff) !important;
+    font-weight: 500 !important;
+    padding: 0.5rem 1rem !important;
+    width: auto !important; /* 按钮宽度自适应 */
+    min-width: 120px !important;
+    border-radius: 4px !important;
+    transition: all 0.3s ease !important;
+    text-shadow: none !important;
+    display: inline-block !important; /* 确保按钮正常显示 */
+    box-shadow: none !important; /* 清除按钮可能继承的 card box-shadow */
+}
+
+#series-section .card.series-card .btn.stretched-link:hover,
+#series-section .card.series-card .btn.stretched-link:focus {
+    background-color: var(--primary-color, #007bff) !important;
+    color: white !important;
+    box-shadow: 0 0 12px rgba(0, 123, 255, 0.5) !important; /* 统一的按钮悬停光晕 */
+    transform: translateY(-2px) !important;
+}
+
+
+
+/* --- Enhanced Introduction Section --- */
+#introduction-section {
+    height: auto; /* Let content define height */
+    padding-top: 3rem; /* Adjusted Space */
+    padding-bottom: 3rem; /* Adjusted Space */
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+    background-image: url('../images/backgrounded.jpg'); /* Consistent background image */
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed; /* Parallax effect */
+    flex-grow: 1; 
+}
+
+/* Text styling within the frosted glass panel */
+#introduction-section .title-interactive,
+#introduction-section .section-desc, /* Ensuring section-desc is also styled for readability */
+#introduction-section .fs-5 { 
+    color: #e0eaff; 
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 5px rgba(0,0,0,0.5); /* Enhanced shadow for readability */
+}
+
+#introduction-section h2.title-interactive { /* Original title was "About Gundam Series" */
+    font-family: "orbitronlight", sans-serif !important;
+    font-weight: normal !important;
+    background: linear-gradient(145deg, #00e1ff 10%, #66ffff 50%, #00e1ff 90%); 
+    -webkit-background-clip: text !important; 
+    background-clip: text !important; 
+    color: transparent !important; 
+    text-shadow: none !important; 
+    font-size: 2.8rem; /* Adjusted size */
+    margin-bottom: 1.5rem;
+}
+
+/* Original styles for image container and hover effect */
+.introduction-image-container {
+    position: relative;
+    width: 100%; 
+    max-width: 450px; /* Max width for the image container */
+    aspect-ratio: 4 / 3; 
+    min-height: 200px; 
+    border-radius: 12px; 
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 4px 8px rgba(0,0,0,0.2);
+    margin: auto; /* Center if col is wider */
+    border: 1px solid rgba(0, 123, 255, 0.3); 
+}
+
+.intro-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    border-radius: inherit; 
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+}
+
+.intro-image.image-default {
+    opacity: 1;
+    z-index: 2;
+}
+
+.intro-image.image-hover {
+    opacity: 0;
+    z-index: 1;
+}
+
+.introduction-image-container:hover .image-default {
+    opacity: 0;
+}
+
+.introduction-image-container:hover .image-hover {
+    opacity: 1;
+}
+
+
+/* Re-adding styles for #introduction-section text, originally for About Gundam section */
+/* These were the styles for the text content (title, description) from earlier iterations */
+#introduction-section .text-lg-start p.fs-5 {
+    line-height: 1.7; /* Slightly increased line height for readability */
+    color: #e0e0e0; /* Softer white for paragraph text on dark/frosted background */
+}
+
+
+/* Fallback for section-desc if it's used (original one was inside about-gundam-section) */
+#introduction-section .section-desc {
+    /* color: #b0b0b0; /* Slightly dimmer for description text */
+    /* font-style: italic; */
+    /* Removed as this specific class might not be used in the restored intro section's text structure */
+}
+
+/* The rest of your .title-interactive, .section-title (if used elsewhere), .section-desc keyframes and other styles for other pages remain unchanged below */
+
+/* Styles for Hero Section (Part 1) */
+#hero-section {
+    /* background-color: transparent; Ensure it's transparent to show page background */
+    /* min-height: 100vh; Already handled by full-viewport-section */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Aligns content to the top */
+    align-items: center;
+    padding-top: 20vh; /* Reduced padding */
+    text-align: center;
+    position: relative;
+    /* z-index: 2; Ensures hero content is above particles */
+}
+
+#hero-section-content-wrapper {
+    /* This will contain the title and description */
+    /* background: rgba(0,0,0,0.3); Optional: faint dark box for readability if needed */
+    /* padding: 2rem; */
+    /* border-radius: 0.5rem; */
+    max-width: 900px; /* Constrain width of text for better readability, from inline style */
+    margin-left: auto; /* Center the wrapper if it has a max-width */
+    margin-right: auto; /* Center the wrapper if it has a max-width */
+}
+
+/* Ensure existing H1 and P styles for hero section apply correctly */
+#hero-section h1.display-4.fw-bold {
+    font-size: 3.7rem; /* Targeting the hero section main title */
+    font-weight: normal !important; /* Orbitron Light is typically normal/300/400. Override fw-bold */
+    color: #ffffff; /* Ensuring high contrast and visibility */
+    text-shadow: 0 0 15px rgba(0, 225, 255, 0.7), 0 0 5px rgba(0, 225, 255, 0.5); /* Uncommented for better contrast */
+    animation:
+        mainTitleEnter 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards,
+        mainTitleGlowEffect 2.5s ease-in-out 1.3s infinite alternate;
+    position: relative; /* For pseudo-elements or other positioning needs */
+    padding-bottom: 15px; /* Space for the light bar */
+    margin-bottom: 1rem; /* Added margin to separate from paragraph */
+    font-family: 'orbitronlight', sans-serif; /* Apply Orbitron font */
+    overflow: hidden; /* Important for the sweeping ::before to not show outside bounds */
+}
+
+/* Replace existing ::before for hero title light bar */
+#hero-section h1.display-4.fw-bold::before {
+    content: "";
+    position: absolute;
+    bottom: 0; /* Positioned at the bottom of the padding area */
+    height: 3px; /* Thickness of the light bar */
+    width: 50%; /* Width of the highlight strip itself */
+    background: linear-gradient(to right, transparent 0%, #00e1ff 50%, transparent 100%); /* Faded ends */
+    animation: sweepHighlightEffect 3.5s linear infinite; /* New animation, adjusted duration */
+    opacity: 0; /* Initial state for animation */
+    left: -50%; /* Initial position for animation */
+}
+
+#hero-section h1.display-4.fw-bold:hover {
+    color: #e0faff;
+        text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.9),
+        0 0 15px rgba(0, 212, 255, 0.9),
+        0 0 30px rgba(0, 212, 255, 0.8),
+        0 0 50px rgba(0, 170, 255, 0.6);
+    transform: scale(1.03);
+    animation-name: mainTitleEnter, none; 
+}
+
+#hero-section p.lead.mb-4 {
+    /* ... existing code ... */
+}
+
+/* Styles for the new UC Showroom link elements */
+
+
+.play-button-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    color: rgba(255, 255, 255, 0.8);
+    pointer-events: none; /* Initially not interactive until made visible */
+    z-index: 3; /* Above images */
+}
+
+.showroom-link-uc .introduction-image-container.hover-active .play-button-overlay {
+    opacity: 1;
+    pointer-events: auto; /* Make interactive when visible */
+}
+
+.play-button-overlay i:hover {
+    color: #00e1ff; /* Highlight color on hover */
+    transform: scale(1.1);
+}
+
+.image-caption-uc {
+    position: absolute;
+    bottom: -40px; /* Initially positioned below the image container */
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease-out, bottom 0.3s ease-out;
+    color: #e0eaff;
+    font-size: 0.9rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 5px 0;
+    border-radius: 0 0 8px 8px;
+    z-index: 3;
+}
+
+.showroom-link-uc .introduction-image-container.caption-visible .image-caption-uc {
+    opacity: 1;
+    bottom: 0; /* Slide into view */
+}
+
+/* --- Styles for Vertical Showroom Cards (SEED, 00, W, IBO) --- */
+
+
+.vertical-showroom-link {
+    display: block;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.vertical-showroom-link:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.card.vertical-showroom-card {
+    background-color: rgba(255, 255, 255, 0.08); /* Light, very transparent background like HZR example */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.vertical-showroom-link:hover .card.vertical-showroom-card {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.vertical-showroom-card .card-img-top-container {
+    height: 320px; /* Adjust as needed for vertical card images */
+    overflow: hidden;
+}
+
+.vertical-showroom-card .card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-out;
+}
+
+.vertical-showroom-link:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.play-button-overlay-vertical {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.vertical-showroom-link:hover .play-button-overlay-vertical {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.vertical-showroom-card .card-body {
+    padding: 1rem;
+}
+
+.vertical-showroom-card .showroom-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #e5e5e5;
+    margin-bottom: 0.5rem;
+}
+
+.vertical-showroom-card .showroom-card-caption {
+    font-size: 0.85rem;
+    color: #b0b0b0;
+    opacity: 0.7; /* Subtly visible by default */
+    transition: opacity 0.3s ease-out;
+}
+
+.vertical-showroom-link:hover .showroom-card-caption {
+    opacity: 1;
+}
+
+
+
+/* 系列引导样式 */
+.series-guide-wrapper {
+    text-align: center;
+    margin: -0.5rem -15px 2rem -15px; /* 使用负margin来抵消container的padding */
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    position: relative;
+    width: calc(100% + 30px); /* 补偿container的padding */
+}
+
+.series-guide-text {
+    font-family: 'orbitronlight', sans-serif;
+    color: #e0faff;
+    font-size: 1.2rem;
+    display: inline-block;
+    margin-right: 10px;
+    text-shadow: 0 0 10px rgba(0, 225, 255, 0.6);
+}
+
+.guide-arrow {
+    color: #00e1ff;
+    animation: bounceArrow 2s infinite;
+    text-shadow: 0 0 8px rgba(0, 225, 255, 0.8);
+}
+
+@keyframes bounceArrow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .series-guide-text {
+        font-size: 1rem;
+    }
+    
+    .guide-arrow {
+        font-size: 0.9rem;
+    }
+}
+/* Series按钮专属悬停/下拉炫酷效果 */
+.navbar .nav-link.series-dropdown:hover,
+.navbar .nav-link.series-dropdown:focus,
+.navbar .nav-link.series-dropdown.show {
+    color: #00e1ff !important;
+    text-shadow: 0 0 8px #00e1ff, 0 0 16px #00e1ff99;
+    background: none !important;
+    transition: all 0.2s;
+}
+.navbar .nav-item.dropdown.show .nav-link.series-dropdown {
+    color: #fff !important;
+    background: linear-gradient(90deg, #00e1ff33, #222 80%) !important;
+    box-shadow: 0 4px 24px #00e1ff44 !important;
+}
+
+/* Detail Page Background System - 已移至 gundam_backgrounds.css */

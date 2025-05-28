@@ -1,28 +1,311 @@
 {% extends "base.html" %}
 
+{% block styles %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        color: rgb(44, 59, 59);
+        overflow: hidden;
+    }
+    
+    main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* 背景图层 */
+    .bg-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("{{ url_for('static', filename='images/Login.jpg') }}");
+        background-repeat: no-repeat;
+        background-size: 110% 110%; /* 稍微放大背景以避免边缘空隙 */
+        background-position: center;
+        filter: none; /* 移除亮度过滤 */
+        z-index: -1;
+    }
+    
+    /* 暗色叠加层 - 移除 */
+    .overlay {
+        display: none; /* 隐藏叠加层 */
+    }
+    
+    .log {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 400px;
+        background-color: rgba(30, 39, 68, 0.45); /* 增加透明度 */
+        overflow: hidden;
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(0, 191, 255, 0.25);
+        backdrop-filter: blur(8px); /* 调整模糊效果 */
+        z-index: 1;
+        position: relative;
+        padding: 40px 30px;
+        border: 1px solid rgba(0, 191, 255, 0.3);
+        transform: translateZ(0);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .log:hover {
+        transform: translateY(-5px) translateZ(50px);
+        box-shadow: 0 15px 30px rgba(0, 191, 255, 0.4);
+        background-color: rgba(30, 39, 68, 0.55); /* 悬停时略微降低透明度 */
+    }
+    
+    .logtitle {
+        font-size: 42px;
+        font-weight: bolder;
+        -webkit-background-clip: text;
+        background-image: linear-gradient(90deg, rgba(98, 201, 248, 1), rgba(243, 111, 255, 1), rgba(247, 129, 129, 1), rgba(241, 239, 104, 1), rgba(117, 226, 84, 1), rgba(98, 201, 248, 1));
+        background-size: 800%;
+        animation: gradient 20s infinite linear;
+        color: transparent;
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+        text-shadow: 0 0 15px rgba(98, 201, 248, 0.8);
+    }
+    
+    .logbody {
+        width: 100%;
+    }
+    
+    .input-group {
+        position: relative;
+        margin-bottom: 30px;
+        width: 100%;
+    }
+    
+    .input-group .txt {
+        width: 100%;
+        padding: 12px 15px;
+        border: none;
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.15);
+        color: white;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    
+    .input-group .txt:focus {
+        outline: none;
+        background-color: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+    }
+    
+    .input-group .floating-label {
+        position: absolute;
+        left: 15px;
+        top: 12px;
+        color: rgba(255, 255, 255, 0.85);
+        pointer-events: none;
+        transition: all 0.3s ease;
+        font-size: 16px;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+    
+    .input-group .txt:focus + .floating-label,
+    .input-group .txt:not(:placeholder-shown) + .floating-label {
+        top: -25px;
+        left: 5px;
+        font-size: 14px;
+        color: #00e1ff;
+        text-shadow: 0 0 8px rgba(0, 225, 255, 0.7);
+    }
+    
+    .logbody .sub {
+        width: 100%;
+        height: 50px;
+        margin-top: 20px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #0077ff, #00e1ff);
+        font-size: 18px;
+        font-weight: 600;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        letter-spacing: 1px;
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+    }
+    
+    .logbody .sub:hover {
+        background: linear-gradient(90deg, #00a1ff, #00ffff);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 123, 255, 0.6);
+    }
+    
+    .logbody .sub:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 10px rgba(0, 123, 255, 0.4);
+    }
+    
+    .register-link {
+        margin-top: 30px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 15px;
+    }
+    
+    .register-link a {
+        color: #00e1ff;
+        text-decoration: none;
+        font-weight: 600;
+        position: relative;
+        padding-bottom: 2px;
+    }
+    
+    .register-link a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #00e1ff;
+        transition: width 0.3s ease;
+    }
+    
+    .register-link a:hover::after {
+        width: 100%;
+    }
+    
+    /* 添加动画效果 */
+    .glow-effect {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(0, 225, 255, 0.2) 0%, rgba(0, 123, 255, 0) 70%);
+        pointer-events: none;
+        z-index: -1;
+        animation: pulse 3s infinite alternate;
+    }
+    
+    @keyframes gradient {
+        100% {
+            background-position: -800% 0%;
+        }
+    }
+    
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            opacity: 0.5;
+        }
+        100% {
+            transform: scale(1.2);
+            opacity: 0.3;
+        }
+    }
+    
+    /* 隐藏导航栏和页脚 */
+    .navbar, .footer {
+        display: none;
+    }
+    
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+        .log {
+            width: 90%;
+            max-width: 400px;
+            padding: 30px 20px;
+        }
+        
+        .logtitle {
+            font-size: 36px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body_class %}{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="mb-0">用户登录</h3>
-            </div>
-            <div class="card-body">
-                <form method="post" action="{{ url_for('auth.login') }}">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">用户名</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">密码</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">登录</button>
-                </form>
-                <hr>
-                <p>还没有账号？<a href="{{ url_for('auth.register') }}">点击注册</a></p>
-            </div>
+<div class="bg-layer"></div>
+<div class="overlay"></div>
+<div class="log">
+    <div class="glow-effect" style="top: 20%; left: 20%;"></div>
+    <div class="glow-effect" style="bottom: 30%; right: 20%;"></div>
+    <div class="logtitle">LOGIN</div>
+    <form method="post" action="{{ url_for('auth.login') }}" class="logbody">
+        <div class="input-group">
+            <input type="text" class="txt" id="username" name="username" required placeholder=" ">
+            <label for="username" class="floating-label">账户</label>
         </div>
+        
+        <div class="input-group">
+            <input type="password" class="txt" id="password" name="password" required placeholder=" ">
+            <label for="password" class="floating-label">密码</label>
+        </div>
+        
+        <button type="submit" class="sub">登 录</button>
+    </form>
+    <div class="register-link">
+        <p>还没有账号？<a href="{{ url_for('auth.register') }}">点击注册</a></p>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+<script>
+    // 添加页面加载效果
+    document.addEventListener('DOMContentLoaded', () => {
+        const log = document.querySelector('.log');
+        log.style.opacity = '0';
+        log.style.transform = 'translateY(20px)';
+        log.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        
+        setTimeout(() => {
+            log.style.opacity = '1';
+            log.style.transform = 'translateY(0)';
+        }, 300);
+    });
+    
+    // 添加轻微的背景视差效果
+    document.addEventListener('mousemove', (e) => {
+        const bgLayer = document.querySelector('.bg-layer');
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+        
+        // 非常轻微的背景移动
+        bgLayer.style.backgroundPosition = `${50 + mouseX * 5}% ${50 + mouseY * 5}%`;
+    });
+    
+    // 改进浮动标签行为
+    const inputs = document.querySelectorAll('.txt');
+    inputs.forEach(input => {
+        // 检查初始状态
+        if (input.value) {
+            input.nextElementSibling.classList.add('active');
+        }
+        
+        // 焦点事件
+        input.addEventListener('focus', () => {
+            input.nextElementSibling.classList.add('active');
+        });
+        
+        // 失去焦点事件
+        input.addEventListener('blur', () => {
+            if (!input.value) {
+                input.nextElementSibling.classList.remove('active');
+            }
+        });
+    });
+</script>
 {% endblock %} 

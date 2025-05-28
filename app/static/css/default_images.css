@@ -1,0 +1,42 @@
+/* 默认图片样式 - 用于替代缺失的图片 */
+
+.default-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    color: #666;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+.default-img.gundam {
+    background: linear-gradient(135deg, #e6f2ff 0%, #b3d9ff 100%);
+}
+
+.default-img.rx78 {
+    background: linear-gradient(135deg, #ffe6e6 0%, #ffb3b3 100%);
+}
+
+.default-img.zaku {
+    background: linear-gradient(135deg, #e6ffe6 0%, #b3ffb3 100%);
+}
+
+.default-img.unicorn {
+    background: linear-gradient(135deg, #fff2e6 0%, #ffcc99 100%);
+}
+
+.default-img.seed {
+    background: linear-gradient(135deg, #e6e6ff 0%, #b3b3ff 100%);
+}
+
+.default-img.banner {
+    height: 300px;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+    background-size: cover;
+    background-position: center;
+    color: white;
+} 

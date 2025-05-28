@@ -14,4 +14,11 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # 应用配置
-    GUNDAM_IMAGES_PER_PAGE = 9  # 每页显示的高达图片数量 
+    GUNDAM_IMAGES_PER_PAGE = 9  # 每页显示的高达图片数量
+    
+    # 静态文件配置
+    STATIC_FOLDER = 'static'  # 使用相对路径，让Flask自动处理
+    
+    # 调试配置
+    DEBUG = True
+    TEMPLATES_AUTO_RELOAD = True 

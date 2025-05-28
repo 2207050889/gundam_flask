@@ -1,261 +1,1067 @@
 {% extends "base.html" %}
 
-{% block content %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">首页</a></li>
-        <li class="breadcrumb-item"><a href="{{ url_for('main.series', series_name=gundam.series) }}">{{ gundam.series }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ gundam.name }}</li>
-    </ol>
-</nav>
+{% block body_class %}
+{% set bg_class = 'bg-default' %}
+{% if gundam.name == 'RX-78-2高达' %}
+    {% set bg_class = 'bg-rx-78-2-gundam' %}
+{% elif gundam.name == 'MSZ-006Z高达' %}
+    {% set bg_class = 'bg-msz-006-z-gundam' %}
+{% elif gundam.name == 'RX-0独角兽高达' %}
+    {% set bg_class = 'bg-rx-0-独角兽gundam' %}
+{% elif gundam.name == 'MSN-04沙扎比' %}
+    {% set bg_class = 'bg-msn-04-sazabi' %}
+{% elif gundam.name == 'ZGMF-X10A自由高达' %}
+    {% set bg_class = 'bg-zgmf-x10a-自由gundam' %}
+{% elif gundam.name == 'ZGMF-X20A强袭自由高达' %}
+    {% set bg_class = 'bg-zgmf-x20a-强袭自由gundam' %}
+{% elif gundam.name == 'MBF-P02异端高达红色机' %}
+    {% set bg_class = 'bg-mbf-p02-异端gundam红色机' %}
+{% elif gundam.name == 'GAT-X105强袭高达' %}
+    {% set bg_class = 'bg-gat-x105-强袭gundam' %}
+{% elif gundam.name == 'GN-001能天使高达' %}
+    {% set bg_class = 'bg-gn-001-能天使gundam' %}
+{% elif gundam.name == 'GN-000000高达' %}
+    {% set bg_class = 'bg-gn-0000-00gundam' %}
+{% elif gundam.name == 'GN-002力天使高达' %}
+    {% set bg_class = 'bg-gn-002-力天使gundam' %}
+{% elif gundam.name == 'XXXG-00W0飞翼零式高达' %}
+    {% set bg_class = 'bg-xxxg-00w0-飞翼零式gundam' %}
+{% elif gundam.name == 'XXXG-01W飞翼高达' %}
+    {% set bg_class = 'bg-xxxg-01w-飞翼gundam' %}
+{% elif gundam.name == 'ASW-G-08高达巴巴托斯' %}
+    {% set bg_class = 'bg-asw-g-08-gundam巴巴托斯' %}
+{% elif gundam.name == 'RX-93ν高达' %}
+    {% set bg_class = 'bg-rx-93νgundam' %}
+{% elif gundam.name == 'MSN-06S新安洲' %}
+    {% set bg_class = 'bg-msn-06s新安洲' %}
+{% elif gundam.name == 'MSN-04-2夜莺' %}
+    {% set bg_class = 'bg-msn-04-2夜莺' %}
+{% elif gundam.name == 'RX-0独角兽高达2号机·报丧女妖' %}
+    {% set bg_class = 'bg-rx-0独角兽gundam2号机-报丧女妖' %}
+{% elif gundam.name == 'RX-0独角兽高达3号机·菲尼克斯' %}
+    {% set bg_class = 'bg-rx-0独角兽gundam3号机-菲尼克斯' %}
+{% elif gundam.name == 'MBF-02强袭嫣红' %}
+    {% set bg_class = 'bg-mbf-02强袭嫣红' %}
+{% elif gundam.name == 'ORB-01拂晓高达' %}
+    {% set bg_class = 'bg-orb-01拂晓gundam' %}
+{% elif gundam.name == 'ZGMF-X19A无限正义高达' %}
+    {% set bg_class = 'bg-zgmf-x19a无限正义gundam' %}
+{% elif gundam.name == 'ZGMF/A-262B强袭自由高达二式' %}
+    {% set bg_class = 'bg-zgmf-a-262b强袭自由gundam二式' %}
+{% elif gundam.name == 'ZGMF/A-262PD-P非凡强袭自由高达' %}
+    {% set bg_class = 'bg-zgmf-a-262pd-p非凡强袭自由gundam' %}
+{% elif gundam.name == 'GN-003主天使高达' %}
+    {% set bg_class = 'bg-gn-003主天使gundam' %}
+{% elif gundam.name == 'GN-005德天使高达' %}
+    {% set bg_class = 'bg-gn-005德天使gundam' %}
+{% elif gundam.name == 'GN-006智天使高达' %}
+    {% set bg_class = 'bg-gn-006智天使gundam' %}
+{% elif gundam.name == 'XXXG-00W0飞翼零式高达EW' %}
+    {% set bg_class = 'bg-xxxg-00w0飞翼零式gundamew' %}
+{% elif gundam.name == 'ASW-G-08高达巴巴托斯·天狼座' %}
+    {% set bg_class = 'bg-asw-g-08gundam巴巴托斯-天狼座' %}
+{% elif gundam.name == 'ASW-G-08高达巴巴托斯·天狼座帝王形态' %}
+    {% set bg_class = 'bg-asw-g-08gundam巴巴托斯-天狼座帝王形态' %}
+{% endif %}
+detail-page {{ bg_class }}
+{% endblock %}
 
-<div class="row mb-5">
-    <div class="col-md-5">
-        {% if gundam.image_url %}
-        <img src="{{ gundam.image_url }}" class="img-fluid rounded" alt="{{ gundam.name }}">
-        {% else %}
-        <div class="bg-light text-center py-5 rounded">暂无图片</div>
-        {% endif %}
-        
-        {% if gundam.model_url %}
-        <div class="mt-4">
-            <h4>3D模型预览</h4>
-            <div id="model-container" class="border rounded" style="height: 300px;">
-                <!-- Three.js模型将在此处渲染 -->
-            </div>
-        </div>
-        {% endif %}
-    </div>
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+<style>
+/* 深色背景下的内容适配 */
+body.detail-page {
+    color: #e0e0e0;
+}
+
+/* 只对主要内容区域应用字体，不影响导航栏 */
+body.detail-page main {
+    font-family: 'orbitronlight', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+
+/* 机体详情头部区域 - 高透明化 + 入场动画 */
+body.detail-page .gundam-detail-header {
+    background: rgba(15, 25, 45, 0.2) !important;
+    backdrop-filter: blur(8px);
+    border-radius: 1rem;
+    padding: 2.5rem 0;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0, 225, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
+                0 0 20px rgba(0, 225, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    /* 入场动画 */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: headerFadeIn 1s ease-out forwards;
+}
+
+body.detail-page .gundam-detail-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00e1ff, transparent);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* 主标题样式 - 增强对比度 */
+body.detail-page .display-5 {
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: #ffffff !important;
+    text-shadow: 0 0 30px rgba(0, 225, 255, 0.8), 
+                 0 2px 10px rgba(0, 0, 0, 0.9),
+                 0 0 50px rgba(0, 225, 255, 0.4);
+}
+
+/* 徽章样式优化 */
+body.detail-page .badge {
+    font-family: 'orbitronlight', sans-serif;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 信息卡片样式 - 高透明化以显示背景 */
+body.detail-page .info-card {
+    background: rgba(15, 25, 45, 0.08) !important;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0, 225, 255, 0.6);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 225, 255, 0.4);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+body.detail-page .info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(0, 225, 255, 0.2);
+}
+
+body.detail-page .info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+body.detail-page .info-card:hover::before {
+    left: 100%;
+}
+
+/* 卡片头部样式 */
+body.detail-page .card-header {
+    background: linear-gradient(135deg, rgba(0, 225, 255, 0.9), rgba(0, 86, 179, 0.9)) !important;
+    border-bottom: 1px solid rgba(0, 225, 255, 0.5);
+    border-radius: 15px 15px 0 0 !important;
+    padding: 1.5rem;
+    position: relative;
+}
+
+body.detail-page .card-header h4 {
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 300;
+    letter-spacing: 1.5px;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+        /* 统计项目样式 */
+        body.detail-page .stat-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 225, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+body.detail-page .stat-item:hover {
+    background: rgba(0, 225, 255, 0.1);
+    border-color: rgba(0, 225, 255, 0.4);
+    transform: translateX(5px);
+}
+
+body.detail-page .stat-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, #00e1ff, #0056b3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 225, 255, 0.3);
+}
+
+body.detail-page .stat-icon i {
+    color: white;
+    font-size: 1.2rem;
+}
+
+body.detail-page .stat-item .text-muted {
+    color: #ffffff !important;
+    font-family: 'orbitronlight', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    opacity: 0.9;
+}
+
+body.detail-page .stat-item .fw-bold {
+    color: #ffffff !important;
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-shadow: 0 0 15px rgba(0, 225, 255, 0.6), 
+                 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+/* 技术参数显示优化 */
+body.detail-page .tech-params-display {
+    padding: 2rem !important;
+}
+
+body.detail-page .tech-params-display h5 {
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #ffffff;
+}
+
+/* CSS雷达图样式 */
+body.detail-page .radar-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+body.detail-page .radar-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+}
+
+body.detail-page .radar-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+body.detail-page .radar-grid {
+    fill: none;
+    stroke: rgba(0, 225, 255, 0.2);
+    stroke-width: 1;
+}
+
+body.detail-page .radar-axis {
+    stroke: rgba(0, 225, 255, 0.3);
+    stroke-width: 1;
+}
+
+body.detail-page .radar-data {
+    fill: rgba(0, 225, 255, 0.3);
+    stroke: rgba(0, 225, 255, 0.8);
+    stroke-width: 2;
+    animation: radarPulse 2s ease-in-out infinite;
+}
+
+body.detail-page .radar-point {
+    fill: #00e1ff;
+    stroke: #ffffff;
+    stroke-width: 1;
+    animation: pointGlow 1.5s ease-in-out infinite alternate;
+}
+
+body.detail-page .radar-labels {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
+
+body.detail-page .radar-label {
+    position: absolute;
+    font-size: 10px;
+    font-family: 'orbitronlight', sans-serif;
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(0, 225, 255, 0.5);
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+@keyframes radarPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+@keyframes pointGlow {
+    0% { 
+        filter: drop-shadow(0 0 3px rgba(0, 225, 255, 0.5));
+    }
+    100% { 
+        filter: drop-shadow(0 0 8px rgba(0, 225, 255, 1));
+    }
+}
+
+        body.detail-page .param-row {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 225, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+body.detail-page .param-row:hover {
+    background: rgba(0, 225, 255, 0.1);
+    border-color: rgba(0, 225, 255, 0.4);
+    transform: scale(1.02);
+}
+
+body.detail-page .param-row .fw-bold {
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+body.detail-page .param-row .text-info {
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: #00e1ff !important;
+    text-shadow: 0 0 15px rgba(0, 225, 255, 0.8), 
+                 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+/* 进度条样式优化 */
+body.detail-page .param-row > div:last-child {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+body.detail-page .param-row > div:last-child > div {
+    height: 100%;
+    background: linear-gradient(90deg, #00e1ff, #0056b3, #00e1ff);
+    background-size: 200% 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 225, 255, 0.5);
+    animation: progressGlow 2s ease-in-out infinite;
+    position: relative;
+}
+
+body.detail-page .param-row > div:last-child > div::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: progressShine 3s ease-in-out infinite;
+}
+
+@keyframes progressGlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes progressShine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 头部入场动画 */
+@keyframes headerFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+        /* 普通卡片透明化 */
+        body.detail-page .card:not(.info-card) {
+            background: rgba(15, 25, 45, 0.1) !important;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(0, 225, 255, 0.4);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                        0 0 25px rgba(0, 225, 255, 0.2);
+        }
+
+        /* 时间轴样式优化 */
+        body.detail-page .timeline-year {
+            background: linear-gradient(45deg, #00e1ff, #0056b3) !important;
+            color: white !important;
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 400;
+    letter-spacing: 1px;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 225, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.detail-page .timeline-name {
+    color: #e0e0e0 !important;
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+body.detail-page .timeline-name:hover {
+    color: #00e1ff !important;
+    text-shadow: 0 0 15px rgba(0, 225, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+body.detail-page .current-gundam-timeline .timeline-name {
+    color: #00e1ff !important;
+    font-weight: 400;
+    text-shadow: 0 0 20px rgba(0, 225, 255, 0.7);
+}
+
+body.detail-page .timeline-connector-line {
+    background: linear-gradient(90deg, #00e1ff, #0056b3) !important;
+    height: 3px !important;
+    box-shadow: 0 0 10px rgba(0, 225, 255, 0.5);
+}
+
+/* 评论区样式优化 */
+body.detail-page .comment-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 225, 255, 0.2);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+body.detail-page .comment-card:hover {
+    background: rgba(0, 225, 255, 0.1);
+    border-color: rgba(0, 225, 255, 0.4);
+}
+
+body.detail-page .comment-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(45deg, #00e1ff, #0056b3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(0, 225, 255, 0.3);
+}
+
+/* 通用文字样式 - 增强对比度 */
+body.detail-page .card-title,
+body.detail-page .card-text,
+body.detail-page h1,
+body.detail-page h4,
+body.detail-page h5,
+body.detail-page p {
+    color: #ffffff !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 
+                 0 0 10px rgba(0, 225, 255, 0.3);
+}
+
+body.detail-page h5 {
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    body.detail-page .gundam-detail-header {
+        padding: 1.5rem 0;
+        margin-bottom: 1rem;
+    }
     
-    <div class="col-md-7">
-        <h1 class="mb-3">{{ gundam.name }}</h1>
-        
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5 class="mb-0">基本信息</h5>
+    body.detail-page .display-5 {
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+    
+    body.detail-page .stat-item {
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    body.detail-page .tech-params-display {
+        padding: 1rem !important;
+    }
+}   
+</style>
+{% endblock %}
+
+{% block content %}
+
+{# Remove debug print #}
+{# {% if gundam.name == 'RX-78-2 高达' %} <-- Corrected condition with space #}
+
+
+
+<!-- 机体详情区域 -->
+<div class="gundam-detail-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold mb-3">{{ gundam.name }}</h1>
+                <div class="d-flex flex-wrap mb-4">
+                    <span class="badge bg-primary me-2">{{ gundam.series }}</span>
+                    {% if gundam.year %}
+                    <span class="badge bg-secondary me-2">
+                        {{ 'UC' if gundam.series == 'UC纪元' else 'CE' if gundam.series == 'SEED系列' else 'AD' if gundam.series == '00系列' else 'AC' if gundam.series == 'W系列' else 'PD' if gundam.series == '铁血系列' else '' }} {{ gundam.year }}
+                    </span>
+                    {% endif %}
+                    {% if gundam.pilot %}
+                    <span class="badge bg-success me-2">驾驶员: {{ gundam.pilot }}</span>
+                    {% endif %}
+                </div>
+                <p class="lead">{{ gundam.brief_intro if gundam.brief_intro else (gundam.description|truncate(150) if gundam.description else '暂无简介') }}</p>
             </div>
-            <div class="card-body">
-                <table class="table table-striped">
-                    <tbody>
-                        <tr>
-                            <th scope="row" style="width: 30%;">系列</th>
-                            <td>{{ gundam.series }}</td>
-                        </tr>
-                        {% if gundam.year %}
-                        <tr>
-                            <th scope="row">设定年代</th>
-                            <td>{{ gundam.year }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if gundam.pilot %}
-                        <tr>
-                            <th scope="row">驾驶员</th>
-                            <td>{{ gundam.pilot }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if gundam.height %}
-                        <tr>
-                            <th scope="row">高度</th>
-                            <td>{{ gundam.height }}m</td>
-                        </tr>
-                        {% endif %}
-                        {% if gundam.weight %}
-                        <tr>
-                            <th scope="row">重量</th>
-                            <td>{{ gundam.weight }}t</td>
-                        </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
+            <div class="col-md-4 text-center">
+                {% if primary_image %}
+                    {% if is_absolute_url %}
+                    <img src="{{ primary_image }}" class="img-fluid gundam-image" alt="{{ gundam.name }}" 
+                         onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder_image.png') }}';this.alt='Image not found';">
+                    {% else %}
+                    <img src="{{ url_for('static', filename=primary_image) }}" class="img-fluid gundam-image" alt="{{ gundam.name }}" 
+                         onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder_image.png') }}';this.alt='Image not found';">
+                    {% endif %}
+                {% else %}
+                <div class="default-img gundam" style="height:200px; width:100%; background-color: #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 0.5rem;">
+                    <img src="{{ url_for('static', filename='images/placeholder_image.png') }}" class="img-fluid" alt="Placeholder" style="max-height: 150px; opacity: 0.7;">
+                    <small class="mt-2 text-muted">{{ gundam.name }}</small>
+                </div>
+                {% endif %}
             </div>
         </div>
-        
-        {% if gundam.description %}
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5 class="mb-0">详细介绍</h5>
-            </div>
-            <div class="card-body">
-                <p>{{ gundam.description }}</p>
-            </div>
-        </div>
-        {% endif %}
     </div>
 </div>
 
-<div class="card mb-5">
-    <div class="card-header">
-        <h3 class="mb-0">留言板</h3>
-    </div>
-    <div class="card-body">
-        {% if current_user.is_authenticated %}
-        <form action="{{ url_for('main.add_comment', id=gundam.id) }}" method="post">
-            <div class="mb-3">
-                <label for="content" class="form-label">发表评论</label>
-                <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">提交</button>
-        </form>
-        <hr>
-        {% else %}
-        <div class="alert alert-info">
-            请<a href="{{ url_for('auth.login', next=request.path) }}">登录</a>后发表评论
-        </div>
-        {% endif %}
-        
-        <h4 class="mt-4">评论列表</h4>
-        {% for comment in comments %}
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ comment.author.username }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</h6>
-                <p class="card-text">{{ comment.content }}</p>
-            </div>
-        </div>
-        {% else %}
-        <div class="alert alert-light">
-            暂无评论，来发表第一条评论吧！
-        </div>
-        {% endfor %}
-        
-        {% if pagination.pages > 1 %}
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                {% if pagination.has_prev %}
-                <li class="page-item">
-                    <a class="page-link" href="{{ url_for('main.gundam_detail', id=gundam.id, page=pagination.prev_num) }}">上一页</a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
-                </li>
-                {% endif %}
-
-                {% for page in pagination.iter_pages() %}
-                    {% if page %}
-                        {% if page != pagination.page %}
-                        <li class="page-item">
-                            <a class="page-link" href="{{ url_for('main.gundam_detail', id=gundam.id, page=page) }}">{{ page }}</a>
-                        </li>
-                        {% else %}
-                        <li class="page-item active">
-                            <span class="page-link">{{ page }}</span>
-                        </li>
-                        {% endif %}
-                    {% else %}
-                        <li class="page-item disabled">
-                            <span class="page-link">...</span>
-                        </li>
+<div class="container mb-5">
+    <div class="row mb-4">
+        <!-- 机体详细信息 -->
+        <div class="col-md-6 mb-4">
+            <div class="card info-card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>机体信息</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {% if gundam.series %}
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-muted">系列</h6>
+                                    <p class="mb-0 fw-bold">{{ gundam.series }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if gundam.height %}
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-arrows-alt-v"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-muted">高度</h6>
+                                    <p class="mb-0 fw-bold">{{ gundam.height }}m</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            {% if gundam.year %}
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-muted">年代</h6>
+                                    <p class="mb-0 fw-bold">{{ gundam.year }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if gundam.weight %}
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-weight-hanging"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-muted">重量</h6>
+                                    <p class="mb-0 fw-bold">{{ gundam.weight }}t</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% if gundam.pilot %}
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-astronaut"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0 text-muted">驾驶员</h6>
+                            <p class="mb-0 fw-bold">{{ gundam.pilot }}</p>
+                        </div>
+                    </div>
                     {% endif %}
-                {% endfor %}
+                    
+                    {% if gundam.description %}
+                    <div class="mt-4">
+                        <h5 class="mb-3">详细介绍</h5>
+                        <p id="gundam-description-placeholder" style="max-height: 300px; overflow-y: auto;">{{ gundam.description }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- 数据可视化区域 -->
+        <div class="col-md-6 mb-4">
+            <div class="card info-card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-chart-bar me-2"></i>数据可视化</h4>
+                </div>
+                <div class="card-body p-2">
+                    <div id="data-visualization-container">
+                        <p class="text-center mt-5">数据可视化加载中...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                {% if pagination.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="{{ url_for('main.gundam_detail', id=gundam.id, page=pagination.next_num) }}">下一页</a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">下一页</a>
-                </li>
-                {% endif %}
-            </ul>
-        </nav>
-        {% endif %}
+    <!-- Series Timeline Section -->
+    {% if series_timeline_data and series_timeline_data|length > 1 %} {# Only show if there is data and more than one entry #}
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card info-card">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="mb-0"><i class="fas fa-stream me-2"></i>{{ gundam.series }}系列时间轴</h4>
+                    </div>
+                    <div class="card-body" style="overflow-x: auto; padding-bottom: 20px;">
+                        <div class="timeline-container d-flex align-items-start" style="min-width: {{ series_timeline_data|length * 180 }}px;"> {# Dynamic min-width #}
+                            {% for item in series_timeline_data %}
+                            <div class="timeline-item text-center mx-3 position-relative pt-4 {% if item.is_current %}current-gundam-timeline{% endif %}" 
+                                 style="min-width: 150px;">
+                                <div class="timeline-year badge bg-primary mb-2">{{ item.year }}</div>
+                                <div class="timeline-line-up position-absolute" style="top: 0; left: 50%; transform: translateX(-50%);"></div>
+                                <a href="{{ url_for('main.gundam_detail', id=item.id) }}" 
+                                   class="timeline-name fw-bold d-block stretched-link text-decoration-none {% if item.is_current %}text-primary{% else %}text-dark{% endif %}">
+                                    {{ item.name }}
+                                </a>
+                                {# Connector line - visible for all but the last item #}
+                                {% if not loop.last %}
+                                <div class="timeline-connector-line" style="position: absolute; height: 2px; background-color: #6c757d; top: 9px; left: calc(50% + 10px); width: calc(100% + 1.5rem); z-index: -1;"></div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <!-- End Series Timeline Section -->
+
+    <!-- More Images Section -->
+    {% if additional_images %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-images me-2"></i>更多图片</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for image_path in additional_images %}
+                        <div class="col-md-3 col-sm-4 col-6 mb-3">
+                            <a href="{{ url_for('static', filename=image_path) }}" data-bs-toggle="modal" data-bs-target="#imageModal" data-bs-imgsrc="{{ url_for('static', filename=image_path) }}">
+                                <img src="{{ url_for('static', filename=image_path) }}" class="img-fluid img-thumbnail" alt="{{ gundam.name }} - Additional Image {{ loop.index }}" 
+                                     style="height: 150px; width: 100%; object-fit: cover;"
+                                     onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder_image.png') }}';this.alt='Image not found';">
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">{{ gundam.name }} - 图片预览</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="" id="modalImage" class="img-fluid" alt="Full size image">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 评论区 -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="fas fa-comments me-2"></i>留言板</h4>
+        </div>
+        <div class="card-body">
+            {% if current_user.is_authenticated %}
+            <form action="{{ url_for('main.add_comment', id=gundam.id) }}" method="post">
+                <div class="mb-3">
+                    <label for="content" class="form-label">发表评论</label>
+                    <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane me-1"></i> 提交评论
+                </button>
+            </form>
+            <hr class="my-4">
+            {% else %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                请<a href="{{ url_for('auth.login', next=request.path) }}" class="alert-link">登录</a>后发表评论
+            </div>
+            {% endif %}
+            
+            <h5 class="mb-4">评论列表 ({{ pagination.total if pagination.total else 0 }})</h5>
+            
+            {% for comment in comments %}
+            <div class="card comment-card mb-3 border-0">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="comment-avatar me-3">
+                            {{ comment.author.username[0]|upper }}
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="mb-0 fw-bold">{{ comment.author.username }}</h5>
+                                <small class="text-muted">{{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                            </div>
+                            <p class="mb-3">{{ comment.content }}</p>
+                            {% if current_user.is_authenticated and (current_user.id == comment.author.id or current_user.is_admin) %}
+                            <div>
+                                <form action="{{ url_for('main.delete_comment', id=comment.id) }}" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('确定要删除这条评论吗？')">
+                                        <i class="fas fa-trash-alt me-1"></i> 删除
+                                    </button>
+                                </form>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-light">
+                <i class="fas fa-comment-slash me-2"></i>
+                暂无评论，来发表第一条评论吧！
+            </div>
+            {% endfor %}
+            
+            {% if pagination.pages > 1 %}
+            <nav aria-label="评论分页" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if pagination.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('main.gundam_detail', id=gundam.id, page=pagination.prev_num) }}">
+                            <i class="fas fa-chevron-left me-1"></i> 上一页
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                            <i class="fas fa-chevron-left me-1"></i> 上一页
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for page in pagination.iter_pages() %}
+                        {% if page %}
+                            {% if page != pagination.page %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('main.gundam_detail', id=gundam.id, page=page) }}">{{ page }}</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page }}</span>
+                            </li>
+                            {% endif %}
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if pagination.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('main.gundam_detail', id=gundam.id, page=pagination.next_num) }}">
+                            下一页 <i class="fas fa-chevron-right ms-1"></i>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                            下一页 <i class="fas fa-chevron-right ms-1"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-{% if gundam.model_url %}
-<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/STLLoader.js"></script>
+<!-- 移除Three.js相关的CDN链接 -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/STLLoader.js"></script> -->
+<!-- <script src="{{ url_for('static', filename='js/placeholder_model.js') }}"></script> -->
+
+<!-- 引入 ECharts -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+<!-- 引入自定义雷达图脚本 -->
+<script src="{{ url_for('static', filename='js/radar_chart.js') }}"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Three.js初始化函数
-        function initThreeJS() {
-            const container = document.getElementById('model-container');
-            
-            // 创建场景
-            const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xf0f0f0);
-            
-            // 创建相机
-            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            camera.position.set(0, 0, 5);
-            
-            // 创建渲染器
-            const renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(renderer.domElement);
-            
-            // 添加轨道控制器
-            const controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.25;
-            
-            // 添加灯光
-            const ambientLight = new THREE.AmbientLight(0x888888);
-            scene.add(ambientLight);
-            
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(1, 1, 1);
-            scene.add(directionalLight);
-            
-            // 加载STL模型
-            const loader = new THREE.STLLoader();
-            loader.load('{{ gundam.model_url }}', function(geometry) {
-                const material = new THREE.MeshPhongMaterial({ 
-                    color: 0xd5d5d5, 
-                    specular: 0x494949, 
-                    shininess: 200 
-                });
-                
-                const mesh = new THREE.Mesh(geometry, material);
-                
-                // 居中模型
-                geometry.computeBoundingBox();
-                const box = geometry.boundingBox;
-                const center = new THREE.Vector3();
-                box.getCenter(center);
-                mesh.position.sub(center);
-                
-                // 调整模型大小以适应容器
-                const maxDim = Math.max(
-                    box.max.x - box.min.x,
-                    box.max.y - box.min.y,
-                    box.max.z - box.min.z
-                );
-                const scale = 3 / maxDim;
-                mesh.scale.set(scale, scale, scale);
-                
-                scene.add(mesh);
-                
-                // 添加坐标轴辅助线（开发阶段可用）
-                // const axesHelper = new THREE.AxesHelper(5);
-                // scene.add(axesHelper);
-            });
-            
-            // 渲染循环
-            function animate() {
-                requestAnimationFrame(animate);
-                controls.update();
-                renderer.render(scene, camera);
-            }
-            
-            animate();
-            
-            // 响应窗口调整大小
-            window.addEventListener('resize', function() {
-                camera.aspect = container.clientWidth / container.clientHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(container.clientWidth, container.clientHeight);
+        // Image Modal Script
+        const imageModal = document.getElementById('imageModal');
+        if (imageModal) {
+            imageModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const imgSrc = button.getAttribute('data-bs-imgsrc');
+                const modalImage = imageModal.querySelector('#modalImage');
+                modalImage.src = imgSrc;
             });
         }
-        
-        // 初始化Three.js
-        initThreeJS();
+
+
+
+        // 简化的技术参数显示
+        const vizContainer = document.getElementById('data-visualization-container');
+        if (vizContainer) {
+            // 直接显示技术参数，不依赖复杂的图表库
+            const techParams = [
+                { name: '尺寸', value: '{{ gundam.size if gundam.size and gundam.size != "-" else "" }}' },
+                { name: '本体重量', value: '{{ gundam.base_weight if gundam.base_weight and gundam.base_weight != "-" else "" }}' },
+                { name: '全备重量', value: '{{ gundam.full_weight if gundam.full_weight and gundam.full_weight != "-" else "" }}' },
+                { name: '发动机功率', value: '{{ gundam.engine_power if gundam.engine_power and gundam.engine_power != "-" else "" }}' },
+                { name: '推进力', value: '{{ gundam.thrust if gundam.thrust and gundam.thrust != "-" else "" }}' },
+                { name: '加速度', value: '{{ gundam.acceleration if gundam.acceleration and gundam.acceleration != "-" else "" }}' }
+            ];
+
+            let html = '<div class="tech-params-display p-3">';
+            html += '<h5 class="text-center mb-4 text-white">{{ gundam.name }} 技术参数</h5>';
+            
+            let hasData = false;
+            let radarData = {};
+            techParams.forEach(function(param) {
+                if (param.value && param.value.trim() !== '') {
+                    hasData = true;
+                    html += '<div class="param-row mb-3">';
+                    html += '<div class="d-flex justify-content-between align-items-center mb-1">';
+                    html += '<span class="text-white fw-bold">' + param.name + ':</span>';
+                    html += '<span class="text-info">' + param.value + '</span>';
+                    html += '</div>';
+                    html += '<div style="height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden;">';
+                    html += '<div style="height: 100%; background: linear-gradient(90deg, #00e1ff, #0056b3); width: 75%; border-radius: 3px;"></div>';
+                    html += '</div>';
+                    html += '</div>';
+                    
+                    // 收集雷达图数据
+                    radarData[param.name] = param.value;
+                }
+            });
+            
+            // 添加基于真实数据的六维雷达图
+            if (hasData) {
+                // 获取六维技术参数的原始值
+                const radarData = {
+                    size: '{{ gundam.size if gundam.size and gundam.size != "-" else "" }}',
+                    baseWeight: '{{ gundam.base_weight if gundam.base_weight and gundam.base_weight != "-" else "" }}',
+                    fullWeight: '{{ gundam.full_weight if gundam.full_weight and gundam.full_weight != "-" else "" }}',
+                    enginePower: '{{ gundam.engine_power if gundam.engine_power and gundam.engine_power != "-" else "" }}',
+                    thrust: '{{ gundam.thrust if gundam.thrust and gundam.thrust != "-" else "" }}',
+                    acceleration: '{{ gundam.acceleration if gundam.acceleration and gundam.acceleration != "-" else "" }}'
+                };
+                
+                // 提取数值并标准化到0-1范围
+                function extractNumber(str) {
+                    if (!str) return 0;
+                    const match = str.match(/[\d.]+/);
+                    return match ? parseFloat(match[0]) : 0;
+                }
+                
+                const values = {
+                    size: extractNumber(radarData.size),
+                    baseWeight: extractNumber(radarData.baseWeight),
+                    fullWeight: extractNumber(radarData.fullWeight),
+                    enginePower: extractNumber(radarData.enginePower),
+                    thrust: extractNumber(radarData.thrust),
+                    acceleration: extractNumber(radarData.acceleration)
+                };
+                
+                // 标准化数值（基于常见高达数据范围）
+                const normalized = {
+                    size: Math.min(values.size / 25, 1), // 最大25m
+                    baseWeight: Math.min(values.baseWeight / 100, 1), // 最大100t
+                    fullWeight: Math.min(values.fullWeight / 150, 1), // 最大150t
+                    enginePower: Math.min(values.enginePower / 5000, 1), // 最大5000kW
+                    thrust: Math.min(values.thrust / 200000, 1), // 最大200000kg
+                    acceleration: Math.min(values.acceleration / 5, 1) // 最大5G
+                };
+                
+                const validCount = Object.values(normalized).filter(v => v > 0).length;
+                
+                if (validCount >= 3) {
+                    html += '<div class="mt-4 text-center">';
+                    html += '<h6 class="mb-3 text-white">性能雷达图</h6>';
+                    html += '<div style="width: 160px; height: 160px; margin: 0 auto; position: relative;">';
+                    html += '<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">';
+                    
+                    // 绘制六边形网格（3层）
+                    for (let level = 1; level <= 3; level++) {
+                        const radius = level * 12;
+                        let points = "";
+                        for (let i = 0; i < 6; i++) {
+                            const angle = (i * 60 - 90) * Math.PI / 180;
+                            const x = 50 + radius * Math.cos(angle);
+                            const y = 50 + radius * Math.sin(angle);
+                            points += x + "," + y + " ";
+                        }
+                        html += '<polygon points="' + points + '" fill="none" stroke="rgba(0,225,255,' + (0.1 + level * 0.1) + ')" stroke-width="0.5"/>';
+                    }
+                    
+                    // 绘制轴线
+                    for (let i = 0; i < 6; i++) {
+                        const angle = (i * 60 - 90) * Math.PI / 180;
+                        const x = 50 + 36 * Math.cos(angle);
+                        const y = 50 + 36 * Math.sin(angle);
+                        html += '<line x1="50" y1="50" x2="' + x + '" y2="' + y + '" stroke="rgba(0,225,255,0.4)" stroke-width="0.5"/>';
+                    }
+                    
+                    // 绘制数据多边形（基于真实数据）
+                    const dataOrder = [normalized.size, normalized.enginePower, normalized.thrust, normalized.acceleration, normalized.fullWeight, normalized.baseWeight];
+                    let dataPoints = "";
+                    const actualPoints = [];
+                    
+                    for (let i = 0; i < 6; i++) {
+                        const angle = (i * 60 - 90) * Math.PI / 180;
+                        const radius = 36 * (dataOrder[i] || 0.1); // 最小10%显示
+                        const x = 50 + radius * Math.cos(angle);
+                        const y = 50 + radius * Math.sin(angle);
+                        dataPoints += x + "," + y + " ";
+                        actualPoints.push([x, y]);
+                    }
+                    
+                    html += '<polygon points="' + dataPoints + '" fill="rgba(0,225,255,0.2)" stroke="rgba(0,225,255,0.8)" stroke-width="2"/>';
+                    
+                    // 绘制数据点
+                    actualPoints.forEach(point => {
+                        html += '<circle cx="' + point[0] + '" cy="' + point[1] + '" r="1.5" fill="#00e1ff" stroke="#fff" stroke-width="0.5"/>';
+                    });
+                    
+                    html += '</svg>';
+                    
+                    // 添加标签
+                    const labels = [
+                        {text: '尺寸', x: '50%', y: '8%'},
+                        {text: '功率', x: '85%', y: '25%'},
+                        {text: '推力', x: '85%', y: '75%'},
+                        {text: '加速', x: '50%', y: '92%'},
+                        {text: '全重', x: '15%', y: '75%'},
+                        {text: '本重', x: '15%', y: '25%'}
+                    ];
+                    
+                    labels.forEach(label => {
+                        html += '<div style="position: absolute; left: ' + label.x + '; top: ' + label.y + '; transform: translate(-50%, -50%); color: #00e1ff; font-size: 8px; font-weight: bold; text-shadow: 0 0 3px rgba(0,225,255,0.8); white-space: nowrap;">' + label.text + '</div>';
+                    });
+                    
+                    html += '</div>';
+                    html += '</div>';
+                }
+            }
+            
+            if (!hasData) {
+                html += '<div class="text-center text-muted py-4">';
+                html += '<i class="fas fa-chart-bar fa-3x mb-3 opacity-50"></i>';
+                html += '<p>技术参数数据获取中...</p>';
+                html += '<small>请运行爬虫脚本获取详细参数</small>';
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            vizContainer.innerHTML = html;
+        }
     });
 </script>
-{% endif %}
 {% endblock %} 

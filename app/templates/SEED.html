@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ title }} - 高达信息展示平台
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<!-- Flickity CSS -->
+<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+<style>
+/* Global Overrides for SEED Page */
+body.showroom-page {
+    padding-top: 0 !important;
+    background: linear-gradient(135deg, #1a1a0a 0%, #403d1a 100%) fixed !important;
+    background-image: url('/static/css/UCimages/starfield_bg.jpg'), linear-gradient(135deg, #1a1a0a 0%, #403d1a 100%) !important;
+    background-size: cover, cover;
+    background-repeat: no-repeat, no-repeat;
+    background-position: center center, center center;
+    overflow-x: hidden;
+}
+
+main {
+    background: transparent !important;
+    padding-top: 60px;
+}
+
+.showroom-page .showroom-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent !important;
+    position: relative;
+}
+
+/* Carousel Variables */
+:root {
+    --carousel-viewport-height: 500px;
+    --carousel-cell-aspect-ratio: 0.75;
+    --carousel-cell-spacing: 20px;
+}
+
+/* Carousel Container */
+.flickity-carousel-container {
+    width: 100vw;
+    height: calc(100vw * 500 / 1440);
+    height: 500px;
+    max-width: none;
+    margin: 0 0 40px 0;
+    position: relative;
+    overflow: visible;
+}
+
+/* Flickity Carousel Element */
+.flickity-carousel {
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDE0NDAgNTAwIiBpZD0iaiI+CiAgPHBhdGggZmlsbD0icmdiKDIwMCwyMDAsMjAwKSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMCAwczI3NS4wNCAxMDAgNzIwIDEwMFMxNDQwIDAgMTQ0MCAwdjUwMHMtMjc1LjA0LTEwMC03MjAtMTAwUzAgNTAwIDAgNTAwVjB6Ii8+Cjwvc3ZnPgo=");
+    mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDE0NDAgNTAwIiBpZD0iaiI+CiAgPHBhdGggZmlsbD0icmdiKDIwMCwyMDAsMjAwKSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMCAwczI3NS4wNCAxMDAgNzIwIDEwMFMxNDQwIDAgMTQ0MCAwdjUwMHMtMjc1LjA0LTEwMC03MjAtMTAwUzAgNTAwIDAgNTAwVjB6Ii8+Cjwvc3ZnPgo=");
+    -webkit-mask-size: 102% 102%;
+    mask-size: 102% 102%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+/* Carousel Cells */
+.carousel-cell {
+    height: 100%;
+    width: calc(230vw / 5);
+    margin-right: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(50, 50, 50, 0.5);
+    border-radius: 12px;
+    overflow: hidden;
+    opacity: 0.4;
+    transition: opacity 0.4s;
+}
+
+.carousel-cell.is-selected {
+    opacity: 1;
+    z-index: 2;
+}
+
+.carousel-cell img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Flickity Navigation Buttons */
+.flickity-prev-next-button {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.92);
+    color: #222;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    border: none;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+}
+
+.flickity-prev-next-button:hover {
+    background: #ffd700;
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(255,215,0,0.18);
+}
+
+.flickity-prev-next-button.previous { left: 24px; }
+.flickity-prev-next-button.next { right: 24px; }
+
+/* Page Title and Lead */
+.title-seed {
+    font-family: 'orbitronlight', 'Orbitron', 'Arial Black', Arial, sans-serif;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 0.08em;
+    text-align: center;
+    margin-top: 3.5rem;
+    margin-bottom: 1.2rem;
+    text-shadow:
+        0 2px 16px #ffd700cc,
+        0 0 2px #fff,
+        0 0 32px #ffd70044,
+        2px 2px 8px rgba(0,0,0,0.6);
+    filter: drop-shadow(0 0 8px #ffd70088);
+    transition: color 0.3s, text-shadow 0.3s;
+    user-select: none;
+    z-index: 10;
+    position: static;
+}
+
+.title-seed:hover {
+    color: #ffd700;
+    text-shadow: 0 0 24px #ffd700, 0 0 32px #ffd70099;
+}
+
+.seed-lead {
+    font-size: clamp(1.15rem, 2.5vw, 1.6rem);
+    color: #fff8e0;
+    max-width: 1100px;
+    width: 90vw;
+    text-align: center;
+    margin: 0 auto 2.5rem auto;
+    line-height: 1.7;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    z-index: 9;
+    margin-bottom: 2.8rem;
+    position: static;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    :root {
+        --carousel-viewport-height: 450px;
+    }
+    .flickity-carousel-container { margin-top: 70px; }
+    .title-seed { top: 60px; }
+    .seed-lead { top: 110px; }
+}
+
+@media (max-width: 992px) {
+    :root {
+        --carousel-viewport-height: 400px;
+        --carousel-cell-spacing: 15px;
+    }
+    .flickity-carousel-container { width: 92%; margin-top: 60px; }
+    .title-seed { top: 50px; }
+    .seed-lead { top: 95px; }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --carousel-viewport-height: 350px;
+        --carousel-cell-aspect-ratio: 0.7;
+    }
+    .flickity-carousel-container { width: 95%; margin-top: 50px; }
+    .title-seed { top: 40px; }
+    .seed-lead { top: 80px; max-width: 90%; }
+    .flickity-prev-next-button { width: 40px; height: 40px; left: 10px; }
+    .flickity-prev-next-button.next { right: 10px; }
+}
+
+@media (max-width: 576px) {
+    :root {
+        --carousel-viewport-height: 300px;
+        --carousel-cell-aspect-ratio: 0.65;
+        --carousel-cell-spacing: 10px;
+    }
+    .flickity-carousel-container { margin-top: 40px; }
+    .title-seed { top: 30px; }
+    .seed-lead { top: 65px; font-size: 0.9rem; }
+}
+</style>
+{% endblock %}
+
+{% block body_class %}showroom-page seed-showroom{% endblock %}
+
+{% block content %}
+<div class="title-seed">{{ title }}</div>
+<div class="seed-lead">欢迎来到C.E.纪元的世界。见证调整者与自然人之间的冲突，以及基拉·大和等人的命运。</div>
+
+<!-- Flickity HTML structure -->
+<div class="flickity-carousel-container">
+    <div class="flickity-carousel">
+        {% set image_base_path = 'css/SEEDimages/' %}
+        {% set image_filenames = [
+            'seed_image_01.jpg', 'seed_image_02.jpg', 'seed_image_03.jpg', 'seed_image_04.jpg', 'seed_image_05.jpg',
+            'seed_image_06.jpg', 'seed_image_07.jpg', 'seed_image_08.jpg', 'seed_image_09.jpg', 'seed_image_10.jpg',
+            'seed_image_11.jpg', 'seed_image_12.jpg', 'seed_image_13.jpg', 'seed_image_14.jpg', 'seed_image_15.jpg',
+            'seed_image_16.jpg', 'seed_image_17.jpg', 'seed_image_18.jpg', 'seed_image_19.jpg', 'seed_image_20.jpg',
+        ] %}
+        {% for filename in image_filenames %}
+        <div class="carousel-cell">
+            <img src="{{ url_for('static', filename=image_base_path + filename) }}" alt="{{ title }} Image {{ loop.index }}">
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<!-- Flickity JS -->
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('🎵 SEED演播厅: 页面加载完成');
+
+    var carouselElement = document.querySelector('.flickity-carousel');
+    if (carouselElement) {
+        console.log('轮播组件目标元素找到:', carouselElement);
+        var flkty = new Flickity(carouselElement, {
+            cellAlign: 'center',
+            contain: true,
+            wrapAround: true,
+            pageDots: false,
+            autoPlay: false,
+            selectedAttraction: 0.01,
+            friction: 0.15,
+            prevNextButtons: true
+        });
+        
+        console.log('✅ SEED演播厅轮播组件初始化成功');
+    } else {
+        console.error('❌ 轮播组件目标元素未找到');
+    }
+});
+</script>
+{% endblock %} 

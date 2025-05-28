@@ -5,36 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if title %}{{ title }} - {% endif %}高达信息展示平台</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}"> <!-- We will populate this with Font Squirrel's @font-face rules -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/default_images.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gundam_backgrounds.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/series_backgrounds.css') }}">
     {% block styles %}{% endblock %}
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">高达信息展示平台</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+<body class="min-vh-100 {% block body_class %}d-flex flex-column{% endblock %}" style="padding-top: 60px;">
+    <!-- 顶部导航栏 -->
+     <div id="tsparticles"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">
+                <i class="fas fa-robot me-2"></i> 高达信息展示平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.index') }}">首页</a>
+                        <a class="nav-link main-nav-link {% if request.endpoint == 'main.index' %}active{% endif %}" href="{{ url_for('main.index') }}">
+                            <i class="fas fa-home me-1"></i> Home
+                        </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link {% if request.endpoint == 'main.jingxuanxilie' %}active{% endif %}" href="{{ url_for('main.jingxuanxilie') }}">
+                            <i class="fas fa-star-half-alt me-1"></i> Showcase
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link {% if request.endpoint == 'main.album' %}active{% endif %}" href="{{ url_for('main.album') }}">
+                            <i class="fas fa-images me-1"></i> ALBUM
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link {% if request.endpoint == 'main.blog_join' %}active{% endif %}" href="{{ url_for('main.blog_join') }}">
+                            <i class="fas fa-blog me-1"></i> BLOG/JOIN
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link main-nav-link series-dropdown dropdown-toggle" href="#" id="seriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-layer-group me-1"></i> Series
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="seriesDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('main.series', series_name='UC纪元') }}">UC纪元</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('main.series', series_name='SEED系列') }}">SEED系列</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('main.series', series_name='00系列') }}">00系列</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('main.series', series_name='W系列') }}">W系列</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('main.series', series_name='铁血系列') }}">铁血系列</a></li>
+                        </ul>
+                    </li>
+                    <div class="nav-item-follower"></div>
                 </ul>
-                <ul class="navbar-nav">
+                
+                <form class="d-flex mx-lg-2 my-2 my-lg-0" action="{{ url_for('main.search') }}" method="get">
+                    <div class="input-group">
+                        <input class="form-control" type="search" name="q" placeholder="搜索高达机体..." aria-label="搜索">
+                        <button class="btn btn-light" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <ul class="navbar-nav ms-2">
                     {% if current_user.is_anonymous %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.login') }}">登录</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.register') }}">注册</a>
+                        <a class="nav-link" href="{{ url_for('main.index') }}">
+                            <i class="fas fa-user me-1"></i> 游客进入
+                        </a>
                     </li>
                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">欢迎, {{ current_user.username }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.logout') }}">登出</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i> {{ current_user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('auth.profile') }}">
+                                    <i class="fas fa-id-card me-2"></i> 个人资料
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('auth.logout') }}">
+                                    <i class="fas fa-sign-out-alt me-2"></i> 登出
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     {% endif %}
                 </ul>
@@ -42,27 +103,66 @@
         </div>
     </nav>
 
-    <div class="container mt-4">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
-
-        {% block content %}{% endblock %}
+    <!-- 消息提示 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="container mt-3">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="关闭"></button>
+        </div>
+        {% endfor %}
     </div>
+    {% endif %}
+    {% endwith %}
 
-    <footer class="footer mt-5 py-3 bg-light">
-        <div class="container text-center">
-            <span class="text-muted">© 2024 高达信息展示平台 - 傅华盛毕业设计</span>
+    <!-- 主要内容 -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h5 class="text-uppercase mb-3">高达信息展示平台</h5>
+                    <p class="mb-3">一个专注于收集和展示高达机体信息的平台，为高达爱好者提供互动交流的空间。</p>
+                    <p class="mb-0">© 2024 傅华盛毕业设计</p>
+                </div>
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h5 class="text-uppercase mb-3">快速链接</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{{ url_for('main.index') }}" class="text-white text-decoration-none"><i class="fas fa-angle-right me-2"></i>首页</a></li>
+                        <li class="mb-2"><a href="{{ url_for('main.jingxuanxilie') }}" class="text-white text-decoration-none"><i class="fas fa-angle-right me-2"></i>精选展示</a></li>
+                        <li class="mb-2"><a href="{{ url_for('main.album') }}" class="text-white text-decoration-none"><i class="fas fa-angle-right me-2"></i>图集相册</a></li>
+                        <li class="mb-2"><a href="{{ url_for('main.blog_join') }}" class="text-white text-decoration-none"><i class="fas fa-angle-right me-2"></i>资讯与加入</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </footer>
 
+    <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <!-- 统一音频管理系统 - 管理所有音效和背景音乐 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/music_controller.css') }}">
+    <script src="{{ url_for('static', filename='js/audio_manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/navbar_animation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom_showroom_logic.js') }}"></script>
+    <script>
+    window.addEventListener('scroll', function() {
+        var navbar = document.querySelector('.navbar');
+        if (!navbar) return;
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html> 

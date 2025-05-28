@@ -1,0 +1,61 @@
+{% set bg_class = 'bg-default' %}
+{% elif gundam.name == 'RX-78-2 高达' %}
+    {% set bg_class = 'bg-rx-78-2-gundam' %}
+{% elif gundam.name == 'MSZ-006 Z高达' %}
+    {% set bg_class = 'bg-msz-006-zgundam' %}
+{% elif gundam.name == 'RX-0 独角兽高达' %}
+    {% set bg_class = 'bg-rx-0-独角兽gundam' %}
+{% elif gundam.name == 'MSN-04 沙扎比' %}
+    {% set bg_class = 'bg-msn-04-sazabi' %}
+{% elif gundam.name == 'ZGMF-X10A 自由高达' %}
+    {% set bg_class = 'bg-zgmf-x10a-自由gundam' %}
+{% elif gundam.name == 'ZGMF-X20A 强袭自由高达' %}
+    {% set bg_class = 'bg-zgmf-x20a-强袭自由gundam' %}
+{% elif gundam.name == 'MBF-P02 异端高达红色机' %}
+    {% set bg_class = 'bg-mbf-p02-异端gundam红色机' %}
+{% elif gundam.name == 'GAT-X105 强袭高达' %}
+    {% set bg_class = 'bg-gat-x105-强袭gundam' %}
+{% elif gundam.name == 'GN-001 能天使高达' %}
+    {% set bg_class = 'bg-gn-001-能天使gundam' %}
+{% elif gundam.name == 'GN-0000 00高达' %}
+    {% set bg_class = 'bg-gn-0000-00gundam' %}
+{% elif gundam.name == 'GN-002 力天使高达' %}
+    {% set bg_class = 'bg-gn-002-力天使gundam' %}
+{% elif gundam.name == 'XXXG-00W0 飞翼零式高达' %}
+    {% set bg_class = 'bg-xxxg-00w0-飞翼零式gundam' %}
+{% elif gundam.name == 'XXXG-01W 飞翼高达' %}
+    {% set bg_class = 'bg-xxxg-01w-飞翼gundam' %}
+{% elif gundam.name == 'ASW-G-08 高达巴巴托斯' %}
+    {% set bg_class = 'bg-asw-g-08-gundam巴巴托斯' %}
+{% elif gundam.name == 'RX-93ν高达' %}
+    {% set bg_class = 'bg-rx-93νgundam' %}
+{% elif gundam.name == 'MSN-06S新安洲' %}
+    {% set bg_class = 'bg-msn-06s新安洲' %}
+{% elif gundam.name == 'MSN-04-2夜莺' %}
+    {% set bg_class = 'bg-msn-04-2夜莺' %}
+{% elif gundam.name == 'MBF-02强袭嫣红' %}
+    {% set bg_class = 'bg-mbf-02强袭嫣红' %}
+{% elif gundam.name == 'RX-0独角兽高达2号机·报丧女妖' %}
+    {% set bg_class = 'bg-rx-0独角兽gundam2号机-报丧女妖' %}
+{% elif gundam.name == 'RX-0独角兽高达3号机·菲尼克斯' %}
+    {% set bg_class = 'bg-rx-0独角兽gundam3号机-菲尼克斯' %}
+{% elif gundam.name == 'ORB-01拂晓高达' %}
+    {% set bg_class = 'bg-orb-01拂晓gundam' %}
+{% elif gundam.name == 'ZGMF-X19A无限正义高达' %}
+    {% set bg_class = 'bg-zgmf-x19a无限正义gundam' %}
+{% elif gundam.name == 'ZGMF／A-262B强袭自由高达二式' %}
+    {% set bg_class = 'bg-zgmf／a-262b强袭自由gundam二式' %}
+{% elif gundam.name == 'ZGMF／A-262PD-P非凡强袭自由高达' %}
+    {% set bg_class = 'bg-zgmf／a-262pd-p非凡强袭自由gundam' %}
+{% elif gundam.name == 'GN-003主天使高达' %}
+    {% set bg_class = 'bg-gn-003主天使gundam' %}
+{% elif gundam.name == 'GN-005德天使高达' %}
+    {% set bg_class = 'bg-gn-005德天使gundam' %}
+{% elif gundam.name == 'GN-006智天使高达' %}
+    {% set bg_class = 'bg-gn-006智天使gundam' %}
+{% elif gundam.name == 'XXXG-00W0飞翼零式高达EW' %}
+    {% set bg_class = 'bg-xxxg-00w0飞翼零式gundamew' %}
+{% elif gundam.name == 'ASW-G-08高达巴巴托斯·天狼座' %}
+    {% set bg_class = 'bg-asw-g-08gundam巴巴托斯-天狼座' %}
+{% elif gundam.name == 'ASW-G-08高达巴巴托斯·天狼座帝王形态' %}
+    {% set bg_class = 'bg-asw-g-08gundam巴巴托斯-天狼座帝王形态' %}

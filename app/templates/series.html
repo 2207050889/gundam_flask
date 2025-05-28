@@ -1,84 +1,783 @@
 {% extends "base.html" %}
 
+{% block body_class %}
+{% set series_theme = 'uc' %}
+{% if series_name == 'UC纪元' %}
+    {% set series_theme = 'uc' %}
+{% elif series_name == 'SEED系列' %}
+    {% set series_theme = 'seed' %}
+{% elif series_name == '00系列' %}
+    {% set series_theme = 'double-o' %}
+{% elif series_name == 'W系列' %}
+    {% set series_theme = 'wing' %}
+{% elif series_name == '铁血系列' %}
+    {% set series_theme = 'ibo' %}
+{% endif %}
+series-page theme-{{ series_theme }}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+<style>
+/* 系列页面主体样式 */
+body.series-page {
+    color: #e0e0e0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* 只对主要内容区域应用特殊字体，不影响导航栏 */
+body.series-page main {
+    font-family: 'orbitronlight', 'Segoe UI', sans-serif;
+}
+
+/* 确保导航栏和页脚保持项目原有字体 */
+body.series-page .navbar,
+body.series-page .navbar-brand,
+body.series-page .nav-link,
+body.series-page .form-control,
+body.series-page .btn,
+body.series-page .footer {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
+
+/* 全屏背景设置 */
+body.series-page::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+        background-size: cover;
+        background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* 系列背景由 series_backgrounds.css 文件管理 */
+
+/* 渐变遮罩层 */
+body.series-page::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+}
+
+/* 系列主题色彩变量 */
+:root {
+    --theme-primary: #00e1ff;
+    --theme-secondary: #0056b3;
+    --theme-accent: #66ffff;
+}
+
+body.series-page.theme-uc {
+    --theme-primary: #00e1ff;
+    --theme-secondary: #0056b3;
+    --theme-accent: #66ffff;
+}
+
+body.series-page.theme-seed {
+    --theme-primary: #ff6b35;
+    --theme-secondary: #d63384;
+    --theme-accent: #ff8c42;
+}
+
+body.series-page.theme-double-o {
+    --theme-primary: #20c997;
+    --theme-secondary: #198754;
+    --theme-accent: #40e0d0;
+}
+
+body.series-page.theme-wing {
+    --theme-primary: #ffc107;
+    --theme-secondary: #fd7e14;
+    --theme-accent: #ffdd57;
+}
+
+body.series-page.theme-ibo {
+    --theme-primary: #dc3545;
+    --theme-secondary: #6f2232;
+    --theme-accent: #ff6b6b;
+}
+
+/* 系列头部区域 */
+.series-hero {
+    background: linear-gradient(
+        135deg,
+        rgba(15, 25, 45, 0.95) 0%,
+        rgba(15, 25, 45, 0.3) 50%,
+        rgba(15, 25, 45, 0.95) 100%
+    );
+    backdrop-filter: blur(10px);
+    border-radius: 0 0 2rem 2rem;
+    padding: 4rem 0 3rem;
+    margin-bottom: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(var(--theme-primary), 0.2);
+    position: relative;
+    overflow: hidden;
+    /* 入场动画 */
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: heroFadeIn 1.2s ease-out forwards;
+}
+
+.series-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+        90deg, 
+        transparent, 
+        var(--theme-primary), 
+        var(--theme-accent),
+        var(--theme-primary),
+        transparent
+    );
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.series-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.05), 
+        transparent
+    );
+    animation: sweep 8s ease-in-out infinite;
+}
+
+@keyframes heroFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+@keyframes sweep {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 系列标题 */
+.series-title {
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 300;
+    font-size: 3.5rem;
+    letter-spacing: 3px;
+    color: #ffffff;
+    text-shadow: 
+        0 0 30px var(--theme-primary),
+        0 0 60px rgba(var(--theme-primary), 0.5),
+        0 2px 20px rgba(0, 0, 0, 0.8);
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.series-subtitle {
+    font-size: 1.1rem;
+    color: #b8c5d1;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+}
+
+/* 过滤控制区域 */
+.filter-section {
+    background: rgba(15, 25, 45, 0.3);
+    backdrop-filter: blur(8px);
+    border-radius: 1rem;
+    padding: 2rem;
+        margin-bottom: 3rem;
+    border: 1px solid rgba(var(--theme-primary), 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    /* 延迟入场动画 */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: sectionFadeIn 1s ease-out 0.3s forwards;
+}
+
+@keyframes sectionFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.filter-section .stats-text {
+    font-family: 'orbitronlight', sans-serif;
+    font-size: 1.2rem;
+    color: var(--theme-primary);
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.filter-section .search-form .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(var(--theme-primary), 0.5);
+    border-radius: 25px;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    backdrop-filter: blur(5px);
+}
+
+.filter-section .search-form .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--theme-primary);
+    box-shadow: 0 0 20px rgba(var(--theme-primary), 0.3);
+    color: #fff;
+}
+
+.filter-section .search-form .btn {
+    background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(var(--theme-primary), 0.3);
+    transition: all 0.3s ease;
+}
+
+.filter-section .search-form .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--theme-primary), 0.5);
+}
+
+/* 搜索按钮特殊布局 */
+.search-btn-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    font-size: 0.8rem;
+}
+
+.search-text div {
+    margin: 0;
+    padding: 0;
+}
+
+/* 机体卡片容器 */
+.gundams-grid {
+    /* 入场动画容器 */
+    opacity: 0;
+    animation: gridFadeIn 1s ease-out 0.6s forwards;
+}
+
+@keyframes gridFadeIn {
+    to { opacity: 1; }
+}
+
+/* 机体卡片样式 */
+.gundam-card {
+    background: rgba(15, 25, 45, 0.4);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--theme-primary), 0.3);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+    height: 100%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    /* 卡片渐次入场 */
+    opacity: 0;
+    transform: translateY(50px);
+    animation: cardFadeIn 0.8s ease-out calc(var(--card-index) * 0.1s) forwards;
+}
+
+@keyframes cardFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.gundam-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--theme-primary);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(var(--theme-primary), 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 年代徽章 */
+.year-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 400;
+    letter-spacing: 1px;
+    z-index: 2;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 图片容器 */
+    .card-img-container {
+    height: 220px;
+        overflow: hidden;
+        position: relative;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+.card-img-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(var(--theme-primary), 0.1) 0%,
+        transparent 50%,
+        rgba(var(--theme-primary), 0.1) 100%
+    );
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gundam-card:hover .card-img-container::before {
+    opacity: 1;
+    }
+    
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%; /* 重点显示机体上半身 */
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    filter: brightness(0.9) contrast(1.1);
+}
+    
+.gundam-card:hover .card-img-container img {
+    transform: scale(1.1);
+    filter: brightness(1) contrast(1.2);
+    }
+    
+/* 卡片内容区域 */
+.card-body {
+    padding: 1.5rem;
+    background: rgba(15, 25, 45, 0.2);
+    position: relative;
+}
+
+.card-title {
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+.pilot-info {
+    color: var(--theme-accent);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    font-weight: 300;
+}
+
+/* 统计信息 */
+.card-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+.card-stats span {
+    color: #b8c5d1;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.card-stats i {
+    color: var(--theme-primary);
+}
+
+/* 描述文本 */
+.card-text {
+    color: #a8b5c2;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* 查看详情按钮 */
+.card-footer {
+    background: transparent;
+    border: none;
+    padding: 0 1.5rem 1.5rem;
+}
+
+.btn-view-detail {
+    background: linear-gradient(135deg, rgba(var(--theme-primary), 0.8), rgba(var(--theme-secondary), 0.8));
+    border: 1px solid var(--theme-primary);
+    color: white;
+    border-radius: 25px;
+    padding: 0.7rem 2rem;
+    font-family: 'orbitronlight', sans-serif;
+    font-weight: 400;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    width: 100%;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    }
+    
+.btn-view-detail::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-view-detail:hover::before {
+    left: 100%;
+}
+
+.btn-view-detail:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--theme-primary), 0.4);
+    background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+}
+
+/* 分页样式 */
+.pagination-container {
+    margin-top: 4rem;
+    opacity: 0;
+    animation: sectionFadeIn 1s ease-out 0.9s forwards;
+}
+
+.pagination .page-link {
+    background: rgba(15, 25, 45, 0.6);
+    border: 1px solid rgba(var(--theme-primary), 0.3);
+    color: #b8c5d1;
+    margin: 0 2px;
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    font-family: 'orbitronlight', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+    background: rgba(var(--theme-primary), 0.2);
+    border-color: var(--theme-primary);
+    color: var(--theme-primary);
+    box-shadow: 0 4px 15px rgba(var(--theme-primary), 0.2);
+    }
+    
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+    border-color: var(--theme-primary);
+    color: white;
+    box-shadow: 0 4px 15px rgba(var(--theme-primary), 0.3);
+}
+
+/* 空状态样式 */
+.empty-state {
+    background: rgba(15, 25, 45, 0.4);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--theme-primary), 0.3);
+    border-radius: 1rem;
+    padding: 3rem;
+    text-align: center;
+    color: #b8c5d1;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .series-title {
+        font-size: 2.5rem;
+        letter-spacing: 2px;
+    }
+    
+    .series-hero {
+        padding: 3rem 0 2rem;
+        border-radius: 0 0 1rem 1rem;
+    }
+    
+    .filter-section {
+        padding: 1.5rem;
+    }
+    
+    .card-img-container {
+        height: 180px;
+    }
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--theme-primary);
+}
+
+/* 辅助类 */
+.accent-text {
+    color: var(--theme-accent);
+    font-weight: 600;
+}
+
+.theme-icon {
+    color: var(--theme-primary);
+    opacity: 0.6;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">首页</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ series_name }}</li>
-    </ol>
-</nav>
-
-<h1 class="mb-4">{{ series_name }}系列机体</h1>
-
-<div class="row">
-    {% for gundam in gundams %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            {% if gundam.image_url %}
-            <img src="{{ gundam.image_url }}" class="card-img-top" alt="{{ gundam.name }}">
+<!-- 系列英雄区域 -->
+<div class="series-hero">
+    <div class="container text-center">
+        <h1 class="series-title">{{ series_name }}</h1>
+        <p class="series-subtitle">
+            {% if series_name == 'UC纪元' %}
+            宇宙世纪是《机动战士高达》最初的时间线，承载了从初代高达到独角兽高达等经典作品，见证了人类从地球走向宇宙的史诗征程。
+            {% elif series_name == 'SEED系列' %}
+            宇宙纪元讲述了自然人与调整者之间的冲突，以基拉·大和和自由高达为代表，探讨战争与和平的永恒主题。
+            {% elif series_name == '00系列' %}
+            西历系列以《机动战士高达00》为代表，讲述了天人组织驾驶太阳炉驱动的高达，为了消灭战争而战斗的壮烈故事。
+            {% elif series_name == 'W系列' %}
+            殖民卫星纪元讲述了五位少年驾驶各具特色的高达为殖民地独立而战，以飞翼高达的优雅与力量闻名于世。
+            {% elif series_name == '铁血系列' %}
+            灾难战争后纪元描绘了火星孤儿们驾驶古老的高达骨架，为了生存和尊严而拼搏的残酷而温情的故事。
             {% else %}
-            <div class="card-img-top bg-light text-center py-5">暂无图片</div>
+            探索该系列独特的高达机体世界，每一台机体都承载着不同的故事与传奇。
             {% endif %}
-            <div class="card-body">
-                <h5 class="card-title">{{ gundam.name }}</h5>
-                {% if gundam.pilot %}
-                <h6 class="card-subtitle mb-2 text-muted">驾驶员: {{ gundam.pilot }}</h6>
-                {% endif %}
-                <p class="card-text">{{ gundam.description|truncate(100) }}</p>
-                <a href="{{ url_for('main.gundam_detail', id=gundam.id) }}" class="btn btn-primary">详细信息</a>
+        </p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- 筛选控制区域 -->
+    <div class="filter-section">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <div class="stats-text">
+                    <i class="fas fa-robot me-2"></i>
+                    共收录 <span class="accent-text">{{ pagination.total }}</span> 台机体
+                </div>
+            </div>
+            <div class="col-md-6">
+                <form class="search-form d-flex" action="{{ url_for('main.search') }}" method="get">
+                    <input class="form-control me-3" type="search" name="q" 
+                           placeholder="在{{ series_name }}中搜索机体..." aria-label="搜索">
+                    <input type="hidden" name="series" value="{{ series_name }}">
+                    <button class="btn search-btn" type="submit">
+                        <div class="search-btn-content">
+                            <i class="fas fa-search"></i>
+                            <div class="search-text">
+                                <div>搜</div>
+                                <div>索</div>
+                            </div>
+                        </div>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
-    {% else %}
-    <div class="col-12">
-        <div class="alert alert-info">
-            暂无该系列的高达机体信息。
+
+    <!-- 机体卡片网格 -->
+    <div class="gundams-grid">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+        {% for gundam in gundams %}
+        <div class="col">
+                <div class="card gundam-card h-100" style="--card-index: {{ loop.index }};">
+                {% if gundam.year %}
+                    <span class="year-badge">
+                        {{ 'UC' if series_name == 'UC纪元' else 'CE' if series_name == 'SEED系列' else 'AD' if series_name == '00系列' else 'AC' if series_name == 'W系列' else 'PD' if series_name == '铁血系列' else '' }} 
+                        {{ gundam.year }}
+                    </span>
+                {% endif %}
+                    
+                <div class="card-img-container">
+                    {% if gundam.primary_image %}
+                        {% if gundam.is_absolute_url %}
+                            <img src="{{ gundam.primary_image }}" alt="{{ gundam.name }}"
+                                 onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder_image.png') }}';this.alt='图片加载失败';">
+                            {% else %}
+                            <img src="{{ url_for('static', filename=gundam.primary_image) }}" alt="{{ gundam.name }}"
+                                 onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder_image.png') }}';this.alt='图片加载失败';">
+                            {% endif %}
+                        {% else %}
+                        <div style="height: 220px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a2e, #16213e);">
+                            <img src="{{ url_for('static', filename='images/placeholder_image.png') }}" alt="{{ gundam.name }} - 暂无图片" 
+                                 style="max-height: 80%; max-width: 80%; object-fit: contain; opacity: 0.6;">
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                <div class="card-body">
+                        <h5 class="card-title">{{ gundam.name }}</h5>
+                        
+                    {% if gundam.pilot %}
+                        <p class="pilot-info">
+                            <i class="fas fa-user-astronaut me-2"></i>{{ gundam.pilot }}
+                        </p>
+                    {% endif %}
+                    
+                    <div class="card-stats">
+                        {% if gundam.height %}
+                            <span><i class="fas fa-arrows-alt-v"></i> {{ gundam.height }}m</span>
+                        {% endif %}
+                        {% if gundam.weight %}
+                            <span><i class="fas fa-weight-hanging"></i> {{ gundam.weight }}t</span>
+                        {% endif %}
+                        {% if gundam.model_url %}
+                            <span><i class="fas fa-cube"></i> 3D模型</span>
+                        {% endif %}
+                        </div>
+                        
+                        <p class="card-text">
+                            {{ gundam.brief_intro|truncate(80) if gundam.brief_intro else (gundam.description|truncate(80) if gundam.description else '这台机体承载着独特的故事与技术，等待您的探索...') }}
+                        </p>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <a href="{{ url_for('main.gundam_detail', id=gundam.id) }}" class="btn btn-view-detail">
+                            <i class="fas fa-eye me-2"></i>查看详情
+                        </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+                <div class="empty-state">
+                    <i class="fas fa-robot fa-3x mb-3 theme-icon"></i>
+                    <h4>暂无机体数据</h4>
+                    <p>该系列的高达机体信息正在完善中，请稍后再来查看。</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
-    {% endfor %}
+
+    <!-- 分页导航 -->
+    {% if pagination.pages > 1 %}
+    <nav aria-label="机体分页" class="pagination-container">
+        <ul class="pagination justify-content-center">
+            {% if pagination.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.series', series_name=series_name, page=pagination.prev_num) }}" aria-label="上一页">
+                    <i class="fas fa-chevron-left me-1"></i> 上一页
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">
+                    <i class="fas fa-chevron-left me-1"></i> 上一页
+                </span>
+            </li>
+            {% endif %}
+
+            {% for page in pagination.iter_pages() %}
+                {% if page %}
+                    {% if page != pagination.page %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('main.series', series_name=series_name, page=page) }}">{{ page }}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ page }}</span>
+                    </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if pagination.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.series', series_name=series_name, page=pagination.next_num) }}" aria-label="下一页">
+                    下一页 <i class="fas fa-chevron-right ms-1"></i>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">
+                    下一页 <i class="fas fa-chevron-right ms-1"></i>
+                </span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
 </div>
 
-{% if pagination.pages > 1 %}
-<nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-        {% if pagination.has_prev %}
-        <li class="page-item">
-            <a class="page-link" href="{{ url_for('main.series', series_name=series_name, page=pagination.prev_num) }}">上一页</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
-        </li>
-        {% endif %}
-
-        {% for page in pagination.iter_pages() %}
-            {% if page %}
-                {% if page != pagination.page %}
-                <li class="page-item">
-                    <a class="page-link" href="{{ url_for('main.series', series_name=series_name, page=page) }}">{{ page }}</a>
-                </li>
-                {% else %}
-                <li class="page-item active">
-                    <span class="page-link">{{ page }}</span>
-                </li>
-                {% endif %}
-            {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link">...</span>
-                </li>
-            {% endif %}
-        {% endfor %}
-
-        {% if pagination.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="{{ url_for('main.series', series_name=series_name, page=pagination.next_num) }}">下一页</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">下一页</a>
-        </li>
-        {% endif %}
-    </ul>
-</nav>
-{% endif %}
+<script>
+// 为卡片添加随机延迟入场动画
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.gundam-card');
+    cards.forEach((card, index) => {
+        card.style.setProperty('--card-index', index);
+    });
+});
+</script>
 {% endblock %} 

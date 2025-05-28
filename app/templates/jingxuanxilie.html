@@ -1,0 +1,805 @@
+{% extends "base.html" %}
+
+{% block title %}精选与系列 - 高达信息展示平台{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    /* 基础样式 */
+    body.page-jingxuanxilie {
+        background-color: #000;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    main {
+        padding: 0 !important;
+        margin: 0 !important;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    /* 导航栏样式 */
+    .navbar {
+        transition: all 0.3s ease;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+    }
+
+    .navbar.hidden {
+        transform: translateY(-100%);
+    }
+
+    .navbar.transparent {
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    /* 顶部横幅 */
+    .top-banner {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        background-image: url("{{ url_for('static', filename='images/shangfang.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: -60px;
+        padding-top: 60px;
+    }
+
+    .banner-content {
+        text-align: center;
+        z-index: 2;
+    }
+
+    .top-banner h1 {
+        font-family: "orbitronlight", sans-serif;
+        font-size: 4.5rem;
+        color: #ffffff;
+        text-shadow: 0 0 10px rgba(0, 225, 255, 0.7);
+        margin: 0;
+    }
+
+    .scroll-hint {
+        color: #fff;
+        animation: float 2s ease-in-out infinite;
+        margin-top: 2rem;
+    }
+
+    .scroll-hint p {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .scroll-hint i {
+        font-size: 2rem;
+        color: rgba(0, 225, 255, 0.8);
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    /* ===== 光效扫描线效果 ===== */
+    .content-overlay::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(0, 225, 255, 0.15),
+            rgba(0, 225, 255, 0.3),
+            rgba(0, 225, 255, 0.15),
+            transparent
+        );
+        animation: scanLine 8s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    @keyframes scanLine {
+        0% {
+            left: -100%;
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            left: 100%;
+            opacity: 0;
+        }
+    }
+
+    /* 视差滚动区域 */
+    .parallax-section {
+        width: 100%;
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    .parallax-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .parallax-section:nth-child(1) .parallax-bg {
+        background-image: url("{{ url_for('static', filename='images/showcase/01.jpg') }}");
+    }
+
+    .parallax-section:nth-child(2) .parallax-bg {
+        background-image: url("{{ url_for('static', filename='images/showcase/02.jpg') }}");
+    }
+
+    .parallax-section:nth-child(3) .parallax-bg {
+        background-image: url("{{ url_for('static', filename='images/showcase/03.jpg') }}");
+    }
+
+    .parallax-section:nth-child(4) .parallax-bg {
+        background-image: url("{{ url_for('static', filename='images/showcase/04.jpg') }}");
+    }
+
+    .parallax-section:nth-child(5) .parallax-bg {
+        background-image: url("{{ url_for('static', filename='images/showcase/05.jpg') }}");
+    }
+
+    .parallax-section:nth-child(6) .parallax-bg {
+        background-image: url("{{ url_for('static', filename='images/showcase/06.jpg') }}");
+    }
+
+    .content-overlay {
+        position: relative;
+        width: 100%;
+        padding: 4rem 0;
+        background: rgba(30, 40, 50, 0.3);
+        clip-path: polygon(0 0, 100% 20%, 100% 80%, 0% 100%);
+        overflow: hidden;
+    }
+
+    /* 偶数部分交替遮罩形状 */
+    .parallax-section:nth-child(even) .content-overlay {
+        clip-path: polygon(0 20%, 100% 0, 100% 100%, 0% 80%);
+    }
+
+    .content-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .content-wrapper.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* 偶数部分交替布局 */
+    .parallax-section:nth-child(even) .content-wrapper {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .parallax-section:nth-child(even) .left-content {
+        order: 2;
+        transform: translateX(30px);
+    }
+
+    .parallax-section:nth-child(even) .right-content {
+        order: 1;
+        transform: translateX(-30px);
+        text-align: right;
+        align-items: flex-end;
+    }
+
+    .parallax-section:nth-child(even) .feature-tags {
+        justify-content: flex-end;
+    }
+
+    .parallax-section:nth-child(even) .content-wrapper.animate-in .left-content {
+        transform: translateX(0);
+    }
+
+    .parallax-section:nth-child(even) .content-wrapper.animate-in .right-content {
+        transform: translateX(0);
+    }
+
+    /* 左侧内容区域 - 之前的图片区域 */
+    .left-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+        transform: translateX(-30px);
+        opacity: 0;
+        transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
+    }
+
+    .content-wrapper.animate-in .left-content {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .left-content:hover {
+        transform: translateY(-5px);
+    }
+
+    /* 机体代号 - 放在左侧，更大字体 */
+    .gundam-model-number {
+        font-family: "orbitronlight", sans-serif;
+        font-size: 4rem;
+        color: #00e1ff;
+        text-shadow: 
+            0 0 20px rgba(0, 225, 255, 0.8),
+            0 0 40px rgba(0, 225, 255, 0.6);
+        margin-bottom: 1rem;
+        font-weight: bold;
+        letter-spacing: 3px;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 0;
+        animation: typewriter 2s steps(15) 1s forwards, titleGlow 3s ease-in-out infinite 3s;
+        position: relative;
+    }
+
+    .gundam-model-number::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        width: 80%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #00e1ff, transparent);
+        transform: translateX(-50%) scaleX(0);
+        animation: underlineExpand 1s ease-out 2.5s forwards;
+    }
+    
+    @keyframes underlineExpand {
+        to {
+            transform: translateX(-50%) scaleX(1);
+        }
+    }
+
+    /* 机体名称 - 放在左侧，中等字体 */
+    .gundam-name {
+        font-family: "orbitronlight", sans-serif;
+        font-size: 2.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        margin-bottom: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        opacity: 0;
+        animation: fadeInUp 1s ease-out 2.5s forwards;
+    }
+
+    .right-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        text-align: left;
+        color: #ffffff;
+        transform: translateX(30px);
+        opacity: 0;
+        transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s;
+    }
+
+    .content-wrapper.animate-in .right-content {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    /* 系列标识 - 保留在右侧 */
+    .gundam-subtitle {
+        font-family: "orbitronlight", sans-serif;
+        color: rgba(0, 225, 255, 0.8);
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 0;
+        animation: typewriter 1.5s steps(15) 2s forwards;
+    }
+
+    /* 机体描述 - 保留在右侧，增大字体 */
+    .gundam-description {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.3rem;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        animation: fadeInUp 1s ease-out 3s forwards;
+    }
+
+    /* 标签样式 */
+    .feature-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 1rem 0;
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .feature-tag {
+        background: linear-gradient(45deg, rgba(0, 225, 255, 0.1), rgba(0, 255, 200, 0.1));
+        border: 1px solid rgba(0, 225, 255, 0.3);
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.9rem;
+        color: #00e1ff;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .feature-tag::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 225, 255, 0.2), transparent);
+        transition: 0.8s;
+    }
+
+    .feature-tag:hover {
+        border-color: rgba(0, 225, 255, 0.6);
+        box-shadow: 0 0 15px rgba(0, 225, 255, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .feature-tag:hover::before {
+        left: 100%;
+    }
+
+    /* 系统启动按钮 */
+    .system-button {
+        margin-top: 1.5rem;
+        padding: 1rem 2rem;
+        background: transparent;
+        border: 2px solid #00e1ff;
+        color: #00e1ff;
+        font-family: "orbitronlight", sans-serif;
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 0.95rem;
+        letter-spacing: 1px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 225, 255, 0.2);
+        animation: buttonPulse 2s ease-in-out infinite;
+    }
+
+    .system-button:hover {
+        background: rgba(0, 225, 255, 0.1);
+        box-shadow: 0 0 20px rgba(0, 225, 255, 0.4);
+    }
+
+    /* 动画定义 */
+    @keyframes typewriter {
+        to {
+            width: 100%;
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+    }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes titleGlow {
+        0%, 100% {
+            text-shadow: 
+                0 0 15px rgba(0, 225, 255, 0.6),
+                0 0 30px rgba(0, 225, 255, 0.4);
+        }
+        50% {
+            text-shadow: 
+                0 0 20px rgba(0, 225, 255, 0.8),
+                0 0 40px rgba(0, 225, 255, 0.6);
+        }
+    }
+
+    @keyframes buttonPulse {
+        0%, 100% {
+            box-shadow: 0 0 10px rgba(0, 225, 255, 0.2);
+        }
+        50% {
+            box-shadow: 0 0 20px rgba(0, 225, 255, 0.4);
+        }
+    }
+
+    /* 隐藏页脚 */
+    footer {
+        display: none !important;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 1200px) {
+        .content-wrapper {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+        
+        .gundam-back {
+            text-align: center;
+            align-items: center;
+        }
+        
+        .feature-tags {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 1024px) {
+        .content-wrapper {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .parallax-section:nth-child(even) .content-wrapper {
+            grid-template-columns: 1fr;
+        }
+        
+        .parallax-section:nth-child(even) .left-content,
+        .parallax-section:nth-child(even) .right-content {
+            order: 0;
+            transform: translateX(0);
+            text-align: center;
+            align-items: center;
+        }
+        
+        .feature-tags {
+            justify-content: center;
+        }
+
+        .gundam-model-number {
+            font-size: 3.5rem;
+        }
+
+        .gundam-name {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .top-banner h1 {
+            font-size: 3rem;
+        }
+        
+        .left-content {
+            padding: 1.5rem 1rem;
+        }
+        
+        .gundam-model-number {
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+        }
+
+        .gundam-name {
+            font-size: 1.8rem;
+        }
+        
+        .gundam-subtitle {
+            font-size: 1rem;
+        }
+        
+        .gundam-description {
+            font-size: 1.1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body_class %}page-jingxuanxilie{% endblock %}
+
+{% block content %}
+<!-- 顶部横幅 -->
+<section class="top-banner">
+    <div class="banner-content">
+        <h1>Showcase</h1>
+        <div class="scroll-hint">
+            <p>Scroll to explore</p>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </div>
+</section>
+
+<!-- 视差滚动部分 -->
+<section>
+    <!-- 第一个视差组 -->
+    <div class="parallax-section">
+        <div class="parallax-bg"></div>
+                    <div class="content-overlay">
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="gundam-model-number">RX-78-2</div>
+                    <div class="gundam-name">Gundam</div>
+                </div>
+                <div class="right-content">
+                    <div class="gundam-subtitle">Earth Federation</div>
+                    <p class="gundam-description">
+                        地球联邦军开发的试作型MS，一年战争中创造传奇的白色恶魔。
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">NEWTYPE</span>
+                        <span class="feature-tag">PROTOTYPE</span>
+                        <span class="feature-tag">EARTH FEDERATION</span>
+                    </div>
+                    <a href="http://127.0.0.1:5000/gundam/1" class="system-button">VIEW DETAILS >></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+    <!-- 第二个视差组 -->
+    <div class="parallax-section">
+        <div class="parallax-bg"></div>
+        <div class="content-overlay">
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="gundam-model-number">ZGMF-X20A</div>
+                    <div class="gundam-name">Strike Freedom</div>
+                </div>
+                <div class="right-content">
+                    <div class="gundam-subtitle">ZAFT Forces</div>
+                    <p class="gundam-description">
+                        Strike Freedom，自由与正义的终极进化形态，翱翔天际的究极机体。
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">SEED DESTINY</span>
+                        <span class="feature-tag">NUCLEAR</span>
+                        <span class="feature-tag">DRAGOON SYSTEM</span>
+                    </div>
+                    <a href="http://127.0.0.1:5000/gundam/6" class="system-button">VIEW DETAILS >></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第三个视差组 -->
+    <div class="parallax-section">
+        <div class="parallax-bg"></div>
+        <div class="content-overlay">
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="gundam-model-number">ASW-G-08</div>
+                    <div class="gundam-name">Barbatos</div>
+                </div>
+                <div class="right-content">
+                    <div class="gundam-subtitle">Tekkadan</div>
+                    <p class="gundam-description">
+                        Barbatos，72柱魔神之一，铁血孤儿团的主力机体，野性与力量的象征。
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">IRON-BLOODED</span>
+                        <span class="feature-tag">MELEE COMBAT</span>
+                        <span class="feature-tag">AHAB REACTOR</span>
+                    </div>
+                    <a href="http://127.0.0.1:5000/gundam/14" class="system-button">VIEW DETAILS >></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第四个视差组 -->
+    <div class="parallax-section">
+        <div class="parallax-bg"></div>
+        <div class="content-overlay">
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="gundam-model-number">XXXG-00W0</div>
+                    <div class="gundam-name">Wing Zero (EW Ver.)</div>
+                </div>
+                <div class="right-content">
+                    <div class="gundam-subtitle">After Colony</div>
+                    <p class="gundam-description">
+                        Wing Zero EW，无尽华尔兹中的终极形态，天使羽翼承载着和平的理想与毁灭的力量。
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">ENDLESS WALTZ</span>
+                        <span class="feature-tag">ZERO SYSTEM</span>
+                        <span class="feature-tag">TWIN BUSTER RIFLE</span>
+                        <span class="feature-tag">ANGEL WINGS</span>
+                    </div>
+                    <a href="http://127.0.0.1:5000/gundam/28" class="system-button">VIEW DETAILS >></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第五个视差组 -->
+    <div class="parallax-section">
+        <div class="parallax-bg"></div>
+        <div class="content-overlay">
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="gundam-model-number">GN-001</div>
+                    <div class="gundam-name">Gundam Exia</div>
+                </div>
+                <div class="right-content">
+                    <div class="gundam-subtitle">Celestial Being</div>
+                    <p class="gundam-description">
+                        Exia，天人组织的近战特化机体，GN粒子驱动的第三世代高达。
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">00 SERIES</span>
+                        <span class="feature-tag">GN DRIVE</span>
+                        <span class="feature-tag">MELEE SPECIALIST</span>
+                    </div>
+                    <a href="http://127.0.0.1:5000/gundam/9" class="system-button">VIEW DETAILS >></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第六个视差组 -->
+    <div class="parallax-section">
+        <div class="parallax-bg"></div>
+        <div class="content-overlay">
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="gundam-model-number">RX-0</div>
+                    <div class="gundam-name">Unicorn Gundam</div>
+                </div>
+                <div class="right-content">
+                    <div class="gundam-subtitle">Anaheim Electronics</div>
+                    <p class="gundam-description">
+                        Unicorn，可能性的兽，NT-D系统觉醒时展现出的奇迹之光。
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">UC TIMELINE</span>
+                        <span class="feature-tag">NT-D SYSTEM</span>
+                        <span class="feature-tag">PSYCHOFRAME</span>
+                    </div>
+                    <a href="http://127.0.0.1:5000/gundam/3" class="system-button">VIEW DETAILS >></a>
+                </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<script>
+    // 响应式导航栏
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar');
+    
+    window.addEventListener('scroll', () => {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // 处理导航栏显示/隐藏
+        if (scrollTop > lastScrollTop) {
+            navbar.classList.add('hidden');
+        } else {
+            navbar.classList.remove('hidden');
+        }
+        
+        // 处理导航栏透明度
+        if (scrollTop > 100) {
+            navbar.classList.remove('transparent');
+        } else {
+            navbar.classList.add('transparent');
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+
+    // 鼠标移动时显示导航栏
+    let timeout;
+    document.addEventListener('mousemove', (e) => {
+        if (e.clientY < 100) {
+            navbar.classList.remove('hidden');
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                if (window.pageYOffset > 100) {
+                    navbar.classList.add('hidden');
+                }
+            }, 2000);
+        }
+    });
+
+    // 滚动动画检测
+    document.addEventListener('DOMContentLoaded', function() {
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    
+                    // 为文字添加延迟动画
+                    setTimeout(() => {
+                        const modelNumber = entry.target.querySelector('.gundam-model-number');
+                        const gundamName = entry.target.querySelector('.gundam-name');
+                        const subtitle = entry.target.querySelector('.gundam-subtitle');
+                        const description = entry.target.querySelector('.gundam-description');
+                        const tags = entry.target.querySelectorAll('.feature-tag');
+                        
+                        if (modelNumber) modelNumber.style.animationPlayState = 'running';
+                        if (gundamName) gundamName.style.animationPlayState = 'running';
+                        if (subtitle) subtitle.style.animationPlayState = 'running';
+                        if (description) description.style.animationPlayState = 'running';
+                        
+                        // 为标签添加延迟效果
+                        tags.forEach((tag, index) => {
+                            setTimeout(() => {
+                                tag.style.opacity = '1';
+                                tag.style.transform = 'translateY(0)';
+                            }, 3500 + index * 200);
+                        });
+                    }, 500);
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有content-wrapper
+        const contentWrappers = document.querySelectorAll('.content-wrapper');
+        contentWrappers.forEach(wrapper => {
+            observer.observe(wrapper);
+        });
+        
+        // 为系统按钮添加特殊音效
+        document.querySelectorAll('.system-button').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                if (window.audioManager) {
+                    window.audioManager.playSound('systemStart', 0.3);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %} 

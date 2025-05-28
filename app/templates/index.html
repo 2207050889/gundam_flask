@@ -1,62 +1,265 @@
 {% extends "base.html" %}
+{% block title %}高达信息展示平台{% endblock %}
+
+{% block body_class %}homepage{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/default_images.css') }}">
+
+{% endblock %}
 
 {% block content %}
-<div class="jumbotron p-5 mb-4 bg-light rounded-3">
-    <div class="container">
-        <h1 class="display-4">欢迎来到高达信息展示平台</h1>
-        <p class="lead">探索不同系列的高达机体资料，了解它们的历史背景和技术规格。</p>
-        <hr class="my-4">
-        <p>本平台收集了UC纪元、SEED系列等高达作品中的经典机体信息，并提供互动留言功能。</p>
+<!-- Hero Section (Part 1 of new homepage) -->
+<section id="hero-section" class="full-viewport-section">
+    <div id="hero-section-content-wrapper">
+        <!-- Main title and description - Orbitron font and gradient text effects are in style.css -->
+        <h1 class="display-4 fw-bold">Gundam Information Display Platform</h1>
+        <p class="lead mb-4">探索机动战士高达的宇宙，了解各系列经典机体的历史与技术</p>
+        <!-- 简化的按钮结构 -->
+        <a href="#introduction-section" class="neon-button-wrapper" id="startNowBtn">
+            <div class="neon-button">START NOW</div>
+        </a>
     </div>
-</div>
+</section>
 
-<h2 class="mb-4">高达系列</h2>
-
-<div class="row">
-    {% for series in series_list %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title">{{ series }}</h5>
-                <p class="card-text">点击进入查看{{ series }}系列的所有高达机体</p>
-                <a href="{{ url_for('main.series', series_name=series) }}" class="btn btn-primary">浏览系列</a>
+<!-- Introduction Section (Part 2 of new homepage - with image hover, frosted glass, and parallax) -->
+<section id="introduction-section"> 
+    <div class="container pt-2 pb-5"> <!-- 将 py-5 改为 pt-2 pb-5，减少顶部间距 -->
+        <!-- Introduction Content (Text and Image) -->
+        <div class="row align-items-center mb-4"> <!-- 减少底部间距 mb-5 改为 mb-4 -->
+            <div class="col-lg-7 text-lg-start text-center">
+                <h2 class="fw-bold mb-4 title-interactive section-title">About Gundam Series</h2> <!-- Added .section-title for consistency -->
+                <p class="fs-5 mb-3 section-desc"> <!-- Added .section-desc -->
+                    高达（GUNDAM）是日本SUNRISE公司推出的科幻机器人动画系列，始于1979年的《机动战士高达》。作为现实系机器人动画的开拓者，高达以其独特的世界观和精密的科技设定赢得了全球粉丝的喜爱。
+                </p>
+                <p class="fs-5 mb-3 section-desc"> <!-- Added .section-desc -->
+                    每个系列都有其独特的背景故事和机体设计，从宇宙世纪（UC）的初代高达，到后来的SEED、00、W、铁血等系列，都展现了丰富多彩的高达世界。
+                </p>
+                 <p class="fs-5 section-desc"> <!-- Added .section-desc -->
+                    Mobile Suit Gundam (机动战士高达 Kido Senshi Gandamu), often shortened to Gundam, is a Japanese military science fiction media franchise/media mix. Created by Yoshiyuki Tomino and Sunrise, the franchise features giant robots, or mecha, with the name "Gundam."
+                </p>
+            </div>
+            <div class="col-lg-5 mt-4 mt-lg-0">
+                <a href="{{ url_for('main.uc_showroom') }}" class="text-decoration-none d-block showroom-link-uc"> <!-- Placeholder link, will need a route -->
+                    <div class="introduction-image-container mx-auto position-relative"> <!-- Added position-relative for play button -->
+                        <img src="{{ url_for('static', filename='images/index/rx782jianjie1.png') }}"
+                             alt="RX-78-2 Gundam Introduction"
+                             class="intro-image image-default">
+                        <img src="{{ url_for('static', filename='images/index/rx782jianjie2.png') }}"
+                             alt="RX-78-2 Gundam Hover"
+                             class="intro-image image-hover">
+                        <!-- Play button to be added by JS or styled with CSS -->
+                        <div class="play-button-overlay">
+                            <i class="fas fa-play fa-3x"></i> <!-- Font Awesome play icon -->
+                        </div>
+                        <div class="image-caption-uc text-center">
+                            宇宙世纪编年史——探索UC百年历史
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
-    </div>
-    {% else %}
-    <div class="col-12">
-        <div class="alert alert-info">
-            当前没有可用的高达系列信息。请等待管理员添加数据。
+
+        <!-- 添加引导元素 -->
+        <div class="series-guide-wrapper">
+            <span class="series-guide-text">选择你感兴趣的系列</span>
+            <i class="fas fa-chevron-down guide-arrow"></i>
         </div>
-    </div>
-    {% endfor %}
-</div>
 
-<h2 class="mb-4 mt-5">精选机体</h2>
-
-<div class="row">
-    {% for gundam in featured_gundams %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            {% if gundam.image_url %}
-            <img src="{{ gundam.image_url }}" class="card-img-top" alt="{{ gundam.name }}">
-            {% else %}
-            <div class="card-img-top bg-light text-center py-5">暂无图片</div>
-            {% endif %}
-            <div class="card-body">
-                <h5 class="card-title">{{ gundam.name }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{ gundam.series }}</h6>
-                <p class="card-text">{{ gundam.description|truncate(100) }}</p>
-                <a href="{{ url_for('main.gundam_detail', id=gundam.id) }}" class="btn btn-primary">详细信息</a>
+        <!-- Series Overview Section Content - REPLACED WITH NEW SHOWROOM CARDS -->
+        <div class="row justify-content-center gx-4 gy-5 mt-5 showroom-cards-container">
+            <!-- SEED Showroom Card -->
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch">
+                <a href="{{ url_for('main.seed_showroom') }}" class="text-decoration-none w-100 vertical-showroom-link">
+                    <div class="card vertical-showroom-card h-100">
+                        <div class="card-img-top-container position-relative">
+                            <img src="{{ url_for('static', filename='images/index/seed_series.jpg') }}" class="card-img-top" alt="SEED Series Showroom">
+                            <div class="play-button-overlay-vertical"><i class="fas fa-play fa-2x"></i></div>
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title showroom-card-title">机动战士高达 SEED</h5>
+                            <p class="card-text showroom-card-caption">了解C.E.纪元的纷争始末</p>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </div>
-    </div>
-    {% else %}
-    <div class="col-12">
-        <div class="alert alert-info">
-            当前没有可用的高达机体信息。请等待管理员添加数据。
-        </div>
-    </div>
-    {% endfor %}
-</div>
+
+            <!-- 00 Showroom Card -->
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch">
+                <a href="{{ url_for('main.oo_showroom') }}" class="text-decoration-none w-100 vertical-showroom-link">
+                    <div class="card vertical-showroom-card h-100">
+                        <div class="card-img-top-container position-relative">
+                            <img src="{{ url_for('static', filename='images/index/00_series.jpg') }}" class="card-img-top" alt="00 Series Showroom">
+                            <div class="play-button-overlay-vertical"><i class="fas fa-play fa-2x"></i></div>
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title showroom-card-title">机动战士高达 00</h5>
+                            <p class="card-text showroom-card-caption">探索天人组织的武力介入</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- W Showroom Card -->
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch">
+                <a href="{{ url_for('main.w_showroom') }}" class="text-decoration-none w-100 vertical-showroom-link">
+                    <div class="card vertical-showroom-card h-100">
+                        <div class="card-img-top-container position-relative">
+                            <img src="{{ url_for('static', filename='images/index/w_series.jpeg') }}" class="card-img-top" alt="W Series Showroom">
+                            <div class="play-button-overlay-vertical"><i class="fas fa-play fa-2x"></i></div>
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title showroom-card-title">新机动战记高达 W</h5>
+                            <p class="card-text showroom-card-caption">见证殖民卫星的流星行动</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- IBO Showroom Card -->
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch">
+                <a href="{{ url_for('main.ibo_showroom') }}" class="text-decoration-none w-100 vertical-showroom-link">
+                    <div class="card vertical-showroom-card h-100">
+                        <div class="card-img-top-container position-relative">
+                            <img src="{{ url_for('static', filename='images/index/ibo_series.jpeg') }}" class="card-img-top" alt="IBO Series Showroom">
+                            <div class="play-button-overlay-vertical"><i class="fas fa-play fa-2x"></i></div>
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title showroom-card-title">铁血的奥尔芬斯</h5>
+                            <p class="card-text showroom-card-caption">追随铁华团的奋战之路</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div> <!-- End of .row for showroom cards -->
+    </div> <!-- End of .container py-5 (the new shared container) -->
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Ensure tsParticles is loaded before trying to use it
+    if (window.tsParticles) {
+        console.log("tsParticles library found. Initializing particles for homepage.");
+        window.tsParticles.load("tsparticles", {
+            fpsLimit: 60,
+            interactivity: {
+                events: {
+                    onHover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onClick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        links: { // Changed from line_linked to links for modern tsParticles
+                            opacity: 1
+                        }
+                    },
+                    bubble: {
+                        distance: 400,
+                        size: 40,
+                        duration: 2,
+                        opacity: 0.8
+                    },
+                    repulse: {
+                        distance: 200,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    },
+                    remove: {
+                        particles_nb: 2
+                    }
+                }
+            },
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#00ffff" // Cyan
+                },
+                shape: {
+                    type: "circle",
+                },
+                opacity: {
+                    value: 0.5,
+                    // random and anim for opacity are deprecated or changed structure
+                    // For random opacity over time, use opacity.animation
+                },
+                size: {
+                    value: 3,
+                    random: true, // shorthand for size.random.enable = true
+                    // anim for size is deprecated or changed structure
+                    // For random size over time, use size.animation
+                },
+                links: {
+                    enable: true,
+                    distance: 150,
+                    color: "#00ffff", // Cyan links
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    outModes: { // Changed from out_mode to outModes (plural and object)
+                        default: "out"
+                    },
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            detectRetina: true,
+            background: {
+                color: 'transparent' // Ensure particles container has transparent background
+            }
+        }).then(container => {
+            console.log("tsParticles container initialized successfully for homepage:", container);
+        }).catch(error => {
+            console.error("Error initializing tsParticles for homepage:", error);
+        });
+    } else {
+        console.error("tsParticles library not found on window object.");
+    }
+});
+
+// 首页音效处理 - 背景音乐由音乐控制器统一管理
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🏠 Index page loaded - background music handled by music controller');
+    
+    // 为START NOW按钮添加专用音效
+    const startBtn = document.getElementById('startNowBtn');
+    if (startBtn) {
+        startBtn.addEventListener('click', function() {
+            if (window.audioManager) {
+                window.audioManager.playStartButtonSound();
+                console.log('🚀 START NOW button clicked with sound effect');
+            }
+        });
+    }
+});
+</script>
 {% endblock %} 

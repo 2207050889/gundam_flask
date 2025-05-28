@@ -1,0 +1,328 @@
+/**
+ * 吊坠式音乐控制器样式
+ * 科技感设计，跟随导航栏显示/隐藏
+ */
+
+.music-controller {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050; /* 高于导航栏 */
+    background: rgba(15, 25, 45, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 225, 255, 0.5);
+    border-radius: 15px;
+    padding: 12px 16px;
+    min-width: 200px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 25px rgba(0, 225, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0);
+    opacity: 1;
+    font-family: 'orbitronlight', 'Segoe UI', sans-serif;
+}
+
+/* 隐藏状态 */
+.music-controller.hidden {
+    transform: translateY(-100px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 悬停效果 */
+.music-controller:hover,
+.music-controller.hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),
+                0 0 35px rgba(0, 225, 255, 0.4);
+    border-color: rgba(0, 225, 255, 0.7);
+}
+
+/* 播放状态 */
+.music-controller.playing {
+    border-color: rgba(0, 255, 127, 0.6);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 25px rgba(0, 255, 127, 0.3);
+}
+
+.music-controller.playing:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),
+                0 0 35px rgba(0, 255, 127, 0.4);
+}
+
+/* 控制器内容布局 */
+.music-controller-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 音乐图标 */
+.music-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, #00e1ff, #0056b3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 15px rgba(0, 225, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.music-controller.playing .music-icon {
+    background: linear-gradient(45deg, #00ff7f, #00b359);
+    animation: musicIconPulse 2s ease-in-out infinite;
+}
+
+.music-icon i {
+    color: white;
+    font-size: 1.1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes musicIconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* 音乐信息 */
+.music-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.music-title {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #ffffff;
+    margin-bottom: 2px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.music-status {
+    font-size: 0.75rem;
+    color: #00e1ff;
+    letter-spacing: 0.3px;
+    text-shadow: 0 0 10px rgba(0, 225, 255, 0.5);
+    transition: color 0.3s ease;
+}
+
+.music-controller.playing .music-status {
+    color: #00ff7f;
+    text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);
+}
+
+/* 播放/暂停按钮 */
+.music-toggle {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 225, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.music-toggle:hover {
+    background: rgba(0, 225, 255, 0.2);
+    border-color: rgba(0, 225, 255, 0.5);
+    transform: scale(1.1);
+}
+
+.music-controller.playing .music-toggle {
+    border-color: rgba(0, 255, 127, 0.3);
+}
+
+.music-controller.playing .music-toggle:hover {
+    background: rgba(0, 255, 127, 0.2);
+    border-color: rgba(0, 255, 127, 0.5);
+}
+
+.music-toggle i {
+    color: #ffffff;
+    font-size: 0.8rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 音波动画 */
+.music-wave {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.music-wave.active {
+    opacity: 1;
+}
+
+.music-wave span {
+    width: 3px;
+    height: 6px;
+    background: linear-gradient(to top, #00e1ff, #00ff7f);
+    border-radius: 2px;
+    animation: musicWave 1.5s ease-in-out infinite;
+}
+
+.music-wave span:nth-child(1) { animation-delay: 0s; }
+.music-wave span:nth-child(2) { animation-delay: 0.2s; }
+.music-wave span:nth-child(3) { animation-delay: 0.4s; }
+.music-wave span:nth-child(4) { animation-delay: 0.6s; }
+
+@keyframes musicWave {
+    0%, 100% { 
+        height: 6px; 
+        opacity: 0.6; 
+    }
+    50% { 
+        height: 12px; 
+        opacity: 1; 
+    }
+}
+
+/* 自动播放通知 */
+.music-notification {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1060;
+    background: rgba(0, 255, 127, 0.95);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-family: 'orbitronlight', 'Segoe UI', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 25px rgba(0, 255, 127, 0.3);
+    animation: notificationSlideIn 0.3s ease-out;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.music-notification.fade-out {
+    animation: notificationFadeOut 0.3s ease-in forwards;
+}
+
+.music-notification i {
+    font-size: 1rem;
+    animation: notificationIconSpin 2s linear infinite;
+}
+
+@keyframes notificationSlideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes notificationFadeOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes notificationIconSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .music-controller {
+        top: 15px;
+        right: 15px;
+        min-width: 180px;
+        padding: 10px 14px;
+    }
+    
+    .music-icon {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .music-icon i {
+        font-size: 1rem;
+    }
+    
+    .music-title {
+        font-size: 0.85rem;
+    }
+    
+    .music-status {
+        font-size: 0.7rem;
+    }
+    
+    .music-toggle {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .music-toggle i {
+        font-size: 0.75rem;
+    }
+    
+    .music-notification {
+        top: 70px;
+        right: 15px;
+        font-size: 0.8rem;
+        padding: 10px 14px;
+    }
+}
+
+/* 暗色主题适配 */
+@media (prefers-color-scheme: dark) {
+    .music-controller {
+        background: rgba(10, 15, 25, 0.95);
+    }
+}
+
+/* 高对比度模式适配 */
+@media (prefers-contrast: high) {
+    .music-controller {
+        border-width: 2px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    }
+    
+    .music-title,
+    .music-toggle i {
+        color: #ffffff;
+        text-shadow: none;
+    }
+}
+
+/* 减少动画模式适配 */
+@media (prefers-reduced-motion: reduce) {
+    .music-controller,
+    .music-icon,
+    .music-toggle,
+    .music-wave span {
+        animation: none;
+        transition: none;
+    }
+    
+    .music-controller:hover {
+        transform: none;
+    }
+} 

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/album.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="mid">
+    <ul id="banner" class="banner"></ul>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/album.js') }}"></script>
+{% endblock %} 

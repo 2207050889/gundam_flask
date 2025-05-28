@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>个人资料</h3>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.username }}</h5>
+                    <p class="card-text">邮箱：{{ user.email }}</p>
+                    <p class="card-text">注册时间：{{ user.register_date.strftime('%Y-%m-%d') }}</p>
+                    <a href="{{ url_for('auth.edit_profile') }}" class="btn btn-primary">编辑资料</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>我的评论</h3>
+                </div>
+                <div class="card-body">
+                    {% if comments %}
+                    <div class="list-group">
+                        {% for comment in comments %}
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1"><a href="{{ url_for('main.gundam_detail', id=comment.gundam_id) }}">{{ comment.gundam.name }}</a></h5>
+                                <small>{{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                            </div>
+                            <p class="mb-1">{{ comment.content }}</p>
+                            <div class="mt-2">
+                                <form action="{{ url_for('main.delete_comment', id=comment.id) }}" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('确定要删除这条评论吗？')">删除</button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        您还没有发表任何评论。
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

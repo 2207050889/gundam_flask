@@ -1,0 +1,60 @@
+/* 系列页面专用背景系统 */
+
+/* UC纪元背景 - 经典蓝色科技感 + 专属背景 */
+body.series-page.theme-uc::before {
+    background-image: linear-gradient(
+        135deg,
+        rgba(0, 20, 40, 0.3) 0%,
+        rgba(0, 60, 120, 0.2) 50%,
+        rgba(0, 20, 40, 0.3) 100%
+    ), url('../images/series/UC_series.jpg');
+}
+
+/* SEED系列背景 - 橙红色战争感 + 专属背景 */
+body.series-page.theme-seed::before {
+    background-image: linear-gradient(
+        135deg,
+        rgba(40, 20, 0, 0.3) 0%,
+        rgba(120, 40, 20, 0.2) 50%,
+        rgba(40, 20, 0, 0.3) 100%
+    ), url('../images/series/SEED_series.jpg');
+}
+
+/* 00系列背景 - 绿色科技感 + 专属背景 */
+body.series-page.theme-double-o::before {
+    background-image: linear-gradient(
+        135deg,
+        rgba(0, 30, 20, 0.3) 0%,
+        rgba(20, 80, 60, 0.2) 50%,
+        rgba(0, 30, 20, 0.3) 100%
+    ), url('../images/series/00_series.jpg');
+}
+
+/* W系列背景 - 金黄色优雅感 + 专属背景 */
+body.series-page.theme-wing::before {
+    background-image: linear-gradient(
+        135deg,
+        rgba(40, 30, 0, 0.3) 0%,
+        rgba(100, 80, 20, 0.2) 50%,
+        rgba(40, 30, 0, 0.3) 100%
+    ), url('../images/series/W_series.jpg');
+}
+
+/* 铁血系列背景 - 红色沉重感 + 专属背景 */
+body.series-page.theme-ibo::before {
+    background-image: linear-gradient(
+        135deg,
+        rgba(40, 0, 0, 0.3) 0%,
+        rgba(80, 20, 20, 0.2) 50%,
+        rgba(40, 0, 0, 0.3) 100%
+    ), url('../images/series/IBO_series.jpg');
+}
+
+/* 响应式背景优化 */
+@media (max-width: 768px) {
+    body.series-page::before {
+        background-attachment: scroll;
+    }
+}
+
+/* 系列背景图片已启用，保留科技感渐变遮罩效果 */ 

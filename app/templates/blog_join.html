@@ -1,0 +1,657 @@
+{% extends "base.html" %}
+
+{% block body_class %}blog-join-page d-flex flex-column{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/blog_join.css') }}">
+<style>
+/* 隐藏blog_join页面的页脚 */
+.blog-join-page .footer {
+    display: none !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- BLOG 上半部分 -->
+<section class="blog-join-section blog-section">
+    <div class="blog-join-container">
+        <h2 class="blog-join-title">BLOG</h2>
+        <div class="blog-join-cards">
+            <div class="blog-join-card card-01">
+                <div class="blog-join-card-content">
+                    <h3><i class="fas fa-newspaper me-2"></i>高达资讯中心</h3>
+                    <p>最新机体发布、官方资讯、模型新品速览。获取一手高达动态，追踪最新设定集和官方公告。</p>
+                    <div class="blog-links">
+                        <a href="https://gundam.fandom.com/wiki/The_Gundam_Wiki" target="_blank" class="card-link-btn">
+                            <i class="fas fa-external-link-alt me-1"></i>官方Wiki
+                        </a>
+                        <a href="https://gundam.info/" target="_blank" class="card-link-btn">
+                            <i class="fas fa-globe me-1"></i>Gundam.Info
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="blog-join-card card-02">
+                <div class="blog-join-card-content">
+                    <h3><i class="fas fa-users me-2"></i>高达社区导航</h3>
+                    <p>国内主要高达社区、论坛、资源聚集地。连接全球高达爱好者，分享模型制作心得。</p>
+                    <div class="community-links">
+                        <a href="https://space.bilibili.com/928123/" target="_blank" class="community-tag">
+                            <i class="fab fa-bilibili me-1"></i>B站百科
+                        </a>
+                        <a href="https://tieba.baidu.com/f?kw=高达" target="_blank" class="community-tag">
+                            <i class="fas fa-comments me-1"></i>高达贴吧
+                        </a>
+                        <a href="https://bbs.nga.cn/thread.php?fid=436" target="_blank" class="community-tag">
+                            <i class="fas fa-gamepad me-1"></i>NGA模玩
+                        </a>
+                        <a href="https://www.reddit.com/r/Gundam/" target="_blank" class="community-tag">
+                            <i class="fab fa-reddit me-1"></i>Reddit
+                        </a>
+                    </div>
+                    <div class="community-stats">
+                        <span class="stat-item"><i class="fas fa-user-friends"></i> 100K+ 用户</span>
+                        <span class="stat-item"><i class="fas fa-comments"></i> 每日活跃讨论</span>
+                    </div>
+                </div>
+            </div>
+            <div class="blog-join-card card-03">
+                <div class="blog-join-card-content">
+                    <h3><i class="fas fa-music me-2"></i>高达曲库</h3>
+                    <p>收录各系列经典BGM，一站式音乐体验中心</p>
+                    <div class="music-player">
+                        <div class="music-info">
+                            <div class="music-info-left">
+                                <span class="music-title">♪ Gundam Music Library</span>
+                                <span class="music-desc">当前：Showcase Theme</span>
+                            </div>
+                            <div class="music-info-right">
+                                <span class="playlist-count">曲库：5首精选BGM</span>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <div class="time-display">
+                                <span class="current-time" id="currentTime">0:00</span>
+                                <span class="duration" id="duration">0:00</span>
+                            </div>
+                        </div>
+                        <div class="music-controls">
+                            <button class="music-btn play-btn" id="playBtn" title="播放/暂停">▶</button>
+                            <button class="music-btn prev-btn" id="prevBtn" title="上一首">⏮</button>
+                            <button class="music-btn next-btn" id="nextBtn" title="下一首">⏭</button>
+                            <div class="volume-control">
+                                <button class="music-btn volume-btn" id="volumeBtn" title="音量">🔊</button>
+                                <div class="volume-panel" id="volumePanel">
+                                    <input type="range" class="volume-slider-vertical" id="volumeSlider" min="0" max="100" value="50" orient="vertical" title="音量控制">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 右侧个人信息卡片 -->
+        <div class="blog-profile">
+            <div class="blog-profile-header">
+                <a href="https://github.com/yourusername" target="_blank" class="blog-profile-avatar">
+                    <img src="{{ url_for('static', filename='images/blog/head.jpg') }}" alt="头像">
+                </a>
+                <h3>三水水三天</h3>
+                <p>生命不息,学习不止</p>
+            </div>
+            <div class="blog-profile-tags">
+                <h3>TAG</h3>
+                <p>C&emsp;&emsp;C++ &emsp;C#&emsp; HTML&emsp;&emsp;CSS&emsp;&emsp;Java&emsp;&emsp;JavaScript&emsp;Unity&emsp;&emsp;UnrealEngine&emsp;Python &emsp; 渲染 &emsp;gameplay</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JOIN 下半部分 -->
+<section class="blog-join-section join-section">
+    <div class="join-background">
+    <div class="blog-join-container join-container">
+            <h2 class="blog-join-title join-title">
+                <i class="fas fa-rocket me-3"></i>
+                JOIN / 加入我们
+            </h2>
+            <p class="join-subtitle">一起构建高达世界，共同打造更好的高达信息平台</p>
+            
+            <div class="join-sections-wrapper">
+                <div class="join-goal-section">
+                    <h3><i class="fas fa-bullseye me-2"></i>GOAL / 目标</h3>
+                    <p>建立优秀的游戏制作团队，成为优秀的游戏制作者，创造受人喜爱的虚拟世界。我们致力于将高达IP与现代游戏技术相结合，为全球高达爱好者打造沉浸式体验。</p>
+                </div>
+                
+                <div class="join-opportunities-section">
+                    <h3><i class="fas fa-users me-2"></i>JOIN OPPORTUNITIES / 加入机会</h3>
+                    <div class="opportunities-grid">
+                        <div class="opportunity-card">
+                            <div class="opportunity-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h4>前端开发</h4>
+                            <p>HTML/CSS/JavaScript<br>React/Vue</p>
+                            <span class="status available">开放招募</span>
+                        </div>
+                        <div class="opportunity-card">
+                            <div class="opportunity-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h4>后端开发</h4>
+                            <p>Python/Flask<br>Node.js, 数据库设计</p>
+                            <span class="status available">开放招募</span>
+                        </div>
+                        <div class="opportunity-card">
+                            <div class="opportunity-icon">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <h4>UI/UX设计</h4>
+                            <p>界面设计<br>用户体验优化</p>
+                            <span class="status recruiting">积极招募</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="join-contact-section">
+                    <h3><i class="fas fa-envelope me-2"></i>CONTACT / 联系方式</h3>
+                    <div class="contact-grid">
+                        <div class="contact-item">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub: <a href="https://github.com/yourusername" target="_blank">@YourTeam</a></span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email: 2207050889@qq.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>手机: 15259767602</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-qq"></i>
+                            <span>QQ群: 719878582</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-bilibili"></i>
+                            <span>B站: 传奇赛驱出水芙蓉</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-comments"></i>
+                            <span>贴吧: ID471005383</span>
+                        </div>
+                    </div>
+                    <div class="join-actions">
+                        <button class="join-btn primary" id="joinTeamBtn">
+                            <i class="fas fa-rocket me-2"></i>申请加入团队
+                        </button>
+                        <button class="join-btn secondary" id="learnMoreBtn">
+                            <i class="fas fa-info-circle me-2"></i>了解更多
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// 音乐播放器功能 - 与全局音效系统集成 + 曲库功能
+document.addEventListener('DOMContentLoaded', function() {
+    const playBtn = document.getElementById('playBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const volumeBtn = document.getElementById('volumeBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    
+    let isPlaying = false;
+    let audio = null;
+    let currentTrackIndex = 0;
+    
+    // 高达曲库列表
+    const playlist = [
+        {
+            name: '飞吧！高达',
+            file: '{{ url_for("static", filename="audio/池田鴻 - 翔べ！ガンダム (飞吧！高达).ogg") }}',
+            description: '元祖高达主题曲'
+        },
+        {
+            name: 'Cant you see?',
+            file: '{{ url_for("static", filename="audio/椎名恵 - いつか空に届いて.ogg") }}',
+            description: '口袋战争神曲'
+        },
+        {
+            name: '永世の摇篮',
+            file: '{{ url_for("static", filename="audio/鈴華優子 - 永世のクレイドル (永世的摇篮).ogg") }}',
+            description:'"用烂了"'
+        },
+        {
+            name: '08MS小队',
+            file: '{{ url_for("static", filename="audio/米仓千寻 - 嵐の中で輝いて (暴风雨中的光辉).ogg") }}',
+            description: '我喜欢爱娜'
+        },
+        {
+            name: 'ZのOP1',
+            file: '{{ url_for("static", filename="audio/鮎川麻弥 - Z・刻をこえて(ワンコーラス).ogg") }}',
+            description: '再也不玩抽象了'
+        },
+        {
+            name: '暴风雨中的光辉',
+            file: '{{ url_for("static", filename="audio/松原みき - The Winner (赢家).ogg") }}',
+            description: '我脸崩了'
+        },
+        {
+            name: 'Trust you',
+            file: '{{ url_for("static", filename="audio/伊藤由奈 - trust you.ogg") }}',
+            description: '神中神顶中顶'
+        },
+        {
+            name: 'reason',
+            file: '{{ url_for("static", filename="audio/玉置成实 - Reason.ogg") }}',
+            description: '还会再见面吗'
+        },
+        {
+            name: '我们曾如此相似',
+            file: '{{ url_for("static", filename="audio/See-Saw - 君は僕に似ている (你与我相似).ogg") }}',
+            description: '梦什么时候醒'
+        },
+        {
+            name: 'Two-Mix',
+            file: '{{ url_for("static", filename="audio/TWO-MIX - JUST COMMUNICATION NEXTII (TYPEII).ogg") }}',
+            description: '我永远喜欢高达'
+        },
+        {
+            name: '小苍兰',
+            file: '{{ url_for("static", filename="audio/Uru - フリージア (TV size).ogg") }}',
+            description: '不要停下来...'
+        },   
+    ];
+    
+    // 更新曲目信息显示
+    function updateTrackInfo() {
+        const musicTitle = document.querySelector('.music-title');
+        const musicDesc = document.querySelector('.music-desc');
+        const playlistCount = document.querySelector('.playlist-count');
+        
+        if (musicTitle) musicTitle.textContent = `♪ ${playlist[currentTrackIndex].name}`;
+        if (musicDesc) musicDesc.textContent = `当前：${playlist[currentTrackIndex].description}`;
+        if (playlistCount) playlistCount.textContent = `${currentTrackIndex + 1}/${playlist.length} 首BGM`;
+    }
+    
+    // 创建音频对象
+    function initAudio() {
+        if (audio) {
+            audio.pause();
+            audio = null;
+        }
+        
+        audio = new Audio();
+        audio.loop = true;
+        audio.volume = volumeSlider.value / 100;
+        audio.src = playlist[currentTrackIndex].file;
+        
+        // 音频加载错误处理
+        audio.addEventListener('error', function() {
+            console.warn(`音频文件加载失败: ${playlist[currentTrackIndex].name}`);
+            // 尝试下一首
+            if (currentTrackIndex < playlist.length - 1) {
+                currentTrackIndex++;
+                updateTrackInfo();
+                initAudio();
+            }
+        });
+        
+        audio.addEventListener('loadeddata', function() {
+            console.log(`✅ 音频加载成功: ${playlist[currentTrackIndex].name}`);
+            updateProgress(); // 初始化进度显示
+        });
+        
+        // 添加时间更新监听
+        audio.addEventListener('timeupdate', updateProgress);
+        
+        // 添加音频结束监听（自动下一首）
+        audio.addEventListener('ended', function() {
+            if (nextBtn) {
+                nextBtn.click(); // 自动播放下一首
+            }
+        });
+    }
+    
+    // 播放/暂停功能
+    if (playBtn) {
+        playBtn.addEventListener('click', function() {
+            // 播放点击音效
+            if (window.audioManager) {
+                window.audioManager.playSound('click', 0.4);
+            }
+            
+            if (!audio) {
+                initAudio();
+            }
+            
+            if (!isPlaying) {
+                // 停止所有其他背景音乐
+                if (window.audioManager) {
+                    window.audioManager.stopBackgroundMusic();
+                }
+                
+                playBtn.textContent = '⏸';
+                playBtn.style.background = 'rgba(0, 225, 255, 0.4)';
+                isPlaying = true;
+                
+                // 播放动画效果
+                playBtn.style.animation = 'pulse 2s infinite';
+                
+                // 尝试播放音频
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => {
+                        console.log('Audio play failed:', e);
+                        isPlaying = false;
+                        playBtn.textContent = '▶';
+                        playBtn.style.background = 'rgba(0, 225, 255, 0.2)';
+                        playBtn.style.animation = 'none';
+                    });
+                }
+                
+                console.log(`🎵 开始播放: ${playlist[currentTrackIndex].name}`);
+            } else {
+                playBtn.textContent = '▶';
+                playBtn.style.background = 'rgba(0, 225, 255, 0.2)';
+                playBtn.style.animation = 'none';
+                isPlaying = false;
+                
+                audio.pause();
+                console.log(`⏸ 暂停播放: ${playlist[currentTrackIndex].name}`);
+            }
+        });
+    }
+    
+    // 上一首
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+            if (window.audioManager) {
+                window.audioManager.playSound('click', 0.3);
+            }
+            
+            currentTrackIndex = currentTrackIndex > 0 ? currentTrackIndex - 1 : playlist.length - 1;
+            updateTrackInfo();
+            
+            if (isPlaying) {
+                initAudio();
+                audio.play().catch(e => console.log('Failed to play previous track:', e));
+            } else {
+                initAudio();
+            }
+            
+            console.log(`⏮ 切换到上一首: ${playlist[currentTrackIndex].name}`);
+        });
+    }
+    
+    // 下一首
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            if (window.audioManager) {
+                window.audioManager.playSound('click', 0.3);
+            }
+            
+            currentTrackIndex = currentTrackIndex < playlist.length - 1 ? currentTrackIndex + 1 : 0;
+            updateTrackInfo();
+            
+            if (isPlaying) {
+                initAudio();
+                audio.play().catch(e => console.log('Failed to play next track:', e));
+            } else {
+                initAudio();
+            }
+            
+            console.log(`⏭ 切换到下一首: ${playlist[currentTrackIndex].name}`);
+        });
+    }
+    
+    // 音频进度更新
+    function updateProgress() {
+        if (audio && audio.duration) {
+            const progressFill = document.getElementById('progressFill');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationEl = document.getElementById('duration');
+            
+            const progress = (audio.currentTime / audio.duration) * 100;
+            if (progressFill) progressFill.style.width = progress + '%';
+            
+            if (currentTimeEl) currentTimeEl.textContent = formatTime(audio.currentTime);
+            if (durationEl) durationEl.textContent = formatTime(audio.duration);
+        }
+    }
+    
+    // 时间格式化
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    // 进度条点击跳转
+    function setupProgressBar() {
+        const progressBar = document.querySelector('.progress-bar');
+        if (progressBar) {
+            progressBar.addEventListener('click', function(e) {
+                if (audio && audio.duration) {
+                    const rect = this.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const newTime = (clickX / rect.width) * audio.duration;
+                    audio.currentTime = newTime;
+                    
+                    if (window.audioManager) {
+                        window.audioManager.playSound('click', 0.2);
+                    }
+                }
+            });
+        }
+    }
+    
+    // 垂直音量控制
+    function setupVolumeControl() {
+        const volumeBtn = document.getElementById('volumeBtn');
+        const volumePanel = document.getElementById('volumePanel');
+        const volumeSlider = document.getElementById('volumeSlider');
+        
+        if (volumeBtn && volumePanel) {
+            // 点击音量按钮显示/隐藏面板
+            volumeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                volumePanel.classList.toggle('show');
+                
+                if (window.audioManager) {
+                    window.audioManager.playSound('click', 0.3);
+                }
+            });
+            
+            // 点击外部关闭面板
+            document.addEventListener('click', function(e) {
+                if (!volumePanel.contains(e.target) && e.target !== volumeBtn) {
+                    volumePanel.classList.remove('show');
+                }
+            });
+            
+            // 防止面板内点击关闭
+            volumePanel.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+        
+        if (volumeSlider) {
+            volumeSlider.addEventListener('input', function() {
+                const volume = this.value / 100;
+                if (audio) {
+                    audio.volume = volume;
+                }
+                
+                // 更新音量图标
+                if (volumeBtn) {
+                    if (volume === 0) {
+                        volumeBtn.textContent = '🔇';
+                    } else if (volume < 0.5) {
+                        volumeBtn.textContent = '🔉';
+                    } else {
+                        volumeBtn.textContent = '🔊';
+                    }
+                }
+            });
+        }
+    }
+    
+    // 初始化显示
+    updateTrackInfo();
+    
+    // 初始化进度条和音量控制
+    setupProgressBar();
+    setupVolumeControl();
+    
+    console.log('🎵 高达曲库系统初始化完成，共', playlist.length, '首曲目');
+    
+    // 为卡片添加hover音效
+    document.querySelectorAll('.blog-join-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            if (window.audioManager) {
+                window.audioManager.playSound('hover', 0.2);
+            }
+        });
+    });
+    
+    // 为社区标签添加音效
+    document.querySelectorAll('.community-tag').forEach(tag => {
+        tag.addEventListener('mouseenter', () => {
+            if (window.audioManager) {
+                window.audioManager.playSound('hover', 0.15);
+            }
+        });
+    });
+});
+
+// 播放按钮脉动动画
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(0, 225, 255, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(0, 225, 255, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(0, 225, 255, 0); }
+    }
+`;
+document.head.appendChild(style);
+
+// JOIN部分懒加载系统
+function initJoinLazyLoad() {
+    const joinSection = document.querySelector('.join-section');
+    const joinContainer = document.querySelector('.join-container');
+    
+    if (!joinSection || !joinContainer) return;
+    
+    // 初始隐藏JOIN内容
+    joinContainer.style.opacity = '0';
+    joinContainer.style.transform = 'translateY(30px)';
+    joinContainer.style.transition = 'all 0.8s ease-out';
+    
+    // 检查元素是否进入视口
+    function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top < window.innerHeight && 
+            rect.bottom > 0
+        );
+    }
+    
+    // 滚动监听
+    function checkJoinVisibility() {
+        if (isInViewport(joinSection) && joinContainer.style.opacity === '0') {
+            joinContainer.style.opacity = '1';
+            joinContainer.style.transform = 'translateY(0)';
+            console.log('✨ JOIN部分已加载');
+            
+            // 移除监听器，避免重复触发
+            window.removeEventListener('scroll', checkJoinVisibility);
+        }
+    }
+    
+    // 添加滚动监听
+    window.addEventListener('scroll', checkJoinVisibility);
+    
+    // 初始检查（如果用户直接跳转到页面底部）
+    setTimeout(checkJoinVisibility, 100);
+}
+
+// JOIN按钮交互
+function initJoinInteractions() {
+    const joinBtn = document.getElementById('joinTeamBtn');
+    const learnMoreBtn = document.getElementById('learnMoreBtn');
+    
+    if (joinBtn) {
+        joinBtn.addEventListener('click', function() {
+            // 播放点击音效
+            if (window.audioManager) {
+                window.audioManager.playSound('click', 0.5);
+            }
+            
+            // 简单的联系提示
+            alert('感谢您的兴趣！\n\n请通过以下方式联系我们：\n• QQ群：719878582\n• 邮箱：2207050889@qq.com\n• 手机：15259767602\n\n我们期待与您的合作！');
+            
+            console.log('🚀 显示联系信息');
+        });
+    }
+    
+    if (learnMoreBtn) {
+        learnMoreBtn.addEventListener('click', function() {
+            if (window.audioManager) {
+                window.audioManager.playSound('click', 0.4);
+            }
+            
+            // 展开更多信息
+            alert('更多详细信息请查看我们的GitHub仓库或直接联系团队！\n\n我们期待志同道合的开发者加入这个高达项目。');
+        });
+    }
+    
+    // 为职位卡片添加点击音效
+    document.querySelectorAll('.opportunity-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            if (window.audioManager) {
+                window.audioManager.playSound('hover', 0.15);
+            }
+        });
+        
+        card.addEventListener('click', () => {
+            if (window.audioManager) {
+                window.audioManager.playSound('click', 0.3);
+            }
+        });
+    });
+    
+    // 为联系方式添加音效
+    document.querySelectorAll('.contact-item').forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            if (window.audioManager) {
+                window.audioManager.playSound('hover', 0.1);
+            }
+        });
+    });
+}
+
+// 页面加载完成后初始化效果
+document.addEventListener('DOMContentLoaded', function() {
+    // 初始化JOIN懒加载系统
+    initJoinLazyLoad();
+    
+    // 延迟初始化JOIN交互，让页面先渲染
+    setTimeout(() => {
+        initJoinInteractions();
+    }, 500);
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,146 @@
+/* 机体详情页背景 - 自动生成 */
+
+/* Detail Page Background System */
+body.detail-page {
+    position: relative;
+}
+
+body.detail-page::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -100;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* 机体背景类 */
+body.detail-page.bg-rx-78-2-gundam::before {
+    background-image: url('../images/details/RX-78-2.jpg');
+}
+
+body.detail-page.bg-msz-006-z-gundam::before {
+    background-image: url('../images/details/MSZ-006.jpg');
+}
+
+body.detail-page.bg-rx-0-独角兽gundam::before {
+    background-image: url('../images/details/RX-0.jpg');
+}
+
+body.detail-page.bg-msn-04-sazabi::before {
+    background-image: url('../images/details/MSN-04.jpg');
+}
+
+body.detail-page.bg-zgmf-x10a-自由gundam::before {
+    background-image: url('../images/details/ZGMF-X10A.jpg');
+}
+
+body.detail-page.bg-zgmf-x20a-强袭自由gundam::before {
+    background-image: url('../images/details/ZGMF-X20A.jpg');
+}
+
+body.detail-page.bg-mbf-p02-异端gundam红色机::before {
+    background-image: url('../images/details/MBF-P02.jpg');
+}
+
+body.detail-page.bg-gat-x105-强袭gundam::before {
+    background-image: url('../images/details/GAT-X105.jpg');
+}
+
+body.detail-page.bg-gn-001-能天使gundam::before {
+    background-image: url('../images/details/GN-001.jpg');
+}
+
+body.detail-page.bg-gn-0000-00gundam::before {
+    background-image: url('../images/details/GN-0000.jpg');
+}
+
+body.detail-page.bg-gn-002-力天使gundam::before {
+    background-image: url('../images/details/GN-002.jpg');
+}
+
+body.detail-page.bg-xxxg-00w0-飞翼零式gundam::before {
+    background-image: url('../images/details/XXXG-00W0.jpg');
+}
+
+body.detail-page.bg-xxxg-01w-飞翼gundam::before {
+    background-image: url('../images/details/XXXG-01W.jpg');
+}
+
+body.detail-page.bg-asw-g-08-gundam巴巴托斯::before {
+    background-image: url('../images/details/ASW-G-08.jpg');
+}
+
+body.detail-page.bg-rx-93νgundam::before {
+    background-image: url('../images/details/RX-93ν.jpg');
+}
+
+body.detail-page.bg-msn-06s新安洲::before {
+    background-image: url('../images/details/MSN-06S.jpg');
+}
+
+body.detail-page.bg-msn-04-2夜莺::before {
+    background-image: url('../images/details/MSN-04-2.jpg');
+}
+
+body.detail-page.bg-mbf-02强袭嫣红::before {
+    background-image: url('../images/details/MBF-02.jpg');
+}
+
+body.detail-page.bg-rx-0独角兽gundam2号机-报丧女妖::before {
+    background-image: url('../images/details/RX-0独角兽高达2号机.jpg');
+}
+
+body.detail-page.bg-rx-0独角兽gundam3号机-菲尼克斯::before {
+    background-image: url('../images/details/RX-0独角兽高达3号机.jpg');
+}
+
+body.detail-page.bg-orb-01拂晓gundam::before {
+    background-image: url('../images/details/ORB-01.jpg');
+}
+
+body.detail-page.bg-zgmf-x19a无限正义gundam::before {
+    background-image: url('../images/details/ZGMF-X19A.jpg');
+}
+
+body.detail-page.bg-zgmf-a-262b强袭自由gundam二式::before {
+    background-image: url('../images/details/ZGMF／A-262B.jpg');
+}
+
+body.detail-page.bg-zgmf-a-262pd-p非凡强袭自由gundam::before {
+    background-image: url('../images/details/ZGMF／A-262PD-P.jpg');
+}
+
+body.detail-page.bg-gn-003主天使gundam::before {
+    background-image: url('../images/details/GN-003.jpg');
+}
+
+body.detail-page.bg-gn-005德天使gundam::before {
+    background-image: url('../images/details/GN-005.jpg');
+}
+
+body.detail-page.bg-gn-006智天使gundam::before {
+    background-image: url('../images/details/GN-006.jpg');
+}
+
+body.detail-page.bg-xxxg-00w0飞翼零式gundamew::before {
+    background-image: url('../images/details/XXXG-00W0飞翼零式高达EW.jpg');
+}
+
+body.detail-page.bg-asw-g-08gundam巴巴托斯-天狼座::before {
+    background-image: url('../images/details/ASW-G-08高达巴巴托斯·天狼座.jpg');
+}
+
+body.detail-page.bg-asw-g-08gundam巴巴托斯-天狼座帝王形态::before {
+    background-image: url('../images/details/ASW-G-08高达巴巴托斯·天狼座帝王形态.jpg');
+}
+
+/* 默认背景 */
+body.detail-page.bg-default::before {
+    background-image: url('../images/backgrounds/default-gundam-bg.jpg');
+} 

@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<style>
+    .search-header {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                    url('https://patchwiki.biligame.com/images/gundam/d/d1/qsj6n7qbw7a76ymykzl5b7gisb28n8g.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 3rem 2rem;
+        margin-bottom: 3rem;
+        border-radius: 0.5rem;
+    }
+    
+    .card-img-container {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .card-img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .card:hover .card-img-container img {
+        transform: scale(1.05);
+    }
+    
+    .series-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(0, 123, 255, 0.9);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        z-index: 1;
+    }
+    
+    .card-stats {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+    
+    .filter-controls {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .highlight {
+        background-color: rgba(255, 193, 7, 0.2);
+        padding: 0 2px;
+        border-radius: 2px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- 搜索标题 -->
+    <div class="search-header text-center">
+        <h1 class="display-5 fw-bold mb-4">搜索结果: "{{ query }}"</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <form action="{{ url_for('main.search') }}" method="get" class="mb-0">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-lg" name="q" value="{{ query }}" placeholder="搜索高达机体...">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search me-1"></i> 搜索
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 结果统计 -->
+    <div class="filter-controls mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h5 class="mb-md-0">共找到 {{ pagination.total if pagination.total else 0 }} 个机体</h5>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <span class="text-muted">搜索范围: 名称、系列、驾驶员、描述</span>
+            </div>
+        </div>
+    </div>
+
+    {% if results %}
+    <!-- 结果列表 -->
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        {% for gundam in results %}
+        <div class="col">
+            <div class="card h-100">
+                <span class="series-badge">{{ gundam.series }}</span>
+                <div class="card-img-container">
+                    {% if gundam.primary_image %}
+                        {% if gundam.is_absolute_url %}
+                        <img src="{{ gundam.primary_image }}" class="card-img-top" alt="{{ gundam.name }}"
+                             onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder_image.png') }}';this.alt='Image not found';">
+                        {% else %}
+                        <img src="{{ url_for('static', filename=gundam.primary_image) }}" class="card-img-top" alt="{{ gundam.name }}"
+                             onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/placeholder_image.png') }}';this.alt='Image not found';">
+                        {% endif %}
+                    {% else %}
+                    <div style="height: 200px; display: flex; align-items: center; justify-content: center; background-color: #e9ecef;">
+                        <img src="{{ url_for('static', filename='images/placeholder_image.png') }}" alt="{{ gundam.name }} - Placeholder" 
+                             style="max-height: 100%; max-width: 100%; object-fit: contain; opacity: 0.7;">
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ gundam.name }}</h5>
+                    {% if gundam.pilot %}
+                    <p class="card-text text-muted mb-2">驾驶员: {{ gundam.pilot }}</p>
+                    {% endif %}
+                    
+                    <div class="card-stats">
+                        {% if gundam.height %}
+                        <span><i class="fas fa-arrows-alt-v me-1"></i> {{ gundam.height }}m</span>
+                        {% endif %}
+                        {% if gundam.weight %}
+                        <span><i class="fas fa-weight-hanging me-1"></i> {{ gundam.weight }}t</span>
+                        {% endif %}
+                        {% if gundam.model_url %}
+                        <span><i class="fas fa-cube me-1"></i> 3D模型</span>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="card-text">{{ gundam.description|truncate(80) if gundam.description else '暂无描述' }}</p>
+                </div>
+                <div class="card-footer bg-transparent border-0 pt-0">
+                    <a href="{{ url_for('main.gundam_detail', id=gundam.id) }}" class="btn btn-outline-primary w-100">查看详情</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- 分页 -->
+    {% if pagination.pages > 1 %}
+    <nav aria-label="搜索结果分页" class="my-4">
+        <ul class="pagination justify-content-center">
+            {% if pagination.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.search', q=query, page=pagination.prev_num) }}" aria-label="上一页">
+                    <span aria-hidden="true">&laquo;</span> 上一页
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                    <span aria-hidden="true">&laquo;</span> 上一页
+                </a>
+            </li>
+            {% endif %}
+
+            {% for page in pagination.iter_pages() %}
+                {% if page %}
+                    {% if page != pagination.page %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('main.search', q=query, page=page) }}">{{ page }}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ page }}</span>
+                    </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if pagination.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.search', q=query, page=pagination.next_num) }}" aria-label="下一页">
+                    下一页 <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                    下一页 <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+    
+    {% else %}
+    <!-- 无结果提示 -->
+    <div class="text-center py-5">
+        <i class="fas fa-robot fa-5x text-muted mb-4"></i>
+        <h3 class="mb-3">没有找到相关结果</h3>
+        <p class="text-muted mb-4">没有找到与 "{{ query }}" 相关的高达机体信息。</p>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">搜索建议</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>检查搜索关键词拼写</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>尝试使用更通用的关键词</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>尝试搜索系列名称，如"SEED"、"UC"等</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>或者尝试搜索驾驶员名称</li>
+                        </ul>
+                        <a href="{{ url_for('main.index') }}" class="btn btn-outline-primary mt-2">
+                            <i class="fas fa-home me-1"></i> 返回首页
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 
